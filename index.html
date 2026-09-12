@@ -17,7 +17,7 @@
   <script type="text/babel">
     const { useState } = React;
 
-    const planning = [
+    const planningData = [
       { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (Riz / Substitut PCU) (+ Paupiette pour Nico)", soir: "🍲 Daube douce de navets, carottes, pommes de terre & oignons" },
       { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande hachée/Thon pour Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
       { jour: "Mercredi", midi: "🍲 Daube douce de navets, carottes & pommes de terre (Reste)", soir: "🥕 Risotto de carottes au cumin (Reste)" },
@@ -25,10 +25,10 @@
       { jour: "Vendredi", midi: "🥦 Poêlée rôtie de chou-fleur & carottes & Rice PCU / Riz (+ Paupiette pour Nico)", soir: "🍲 Daube douce de navets, carottes & pommes de terre (Reste)" }
     ];
 
-    const courses = {
+    const coursesData = {
       legumes: [
-        "Pommes de terre : 2,3 kg",
-        "Carottes : 2,5 kg",
+        "Pommes de terre : 2,3 kg (daube et purée parmentier)",
+        "Carottes : 2,5 kg (risotto, daube, poêlée, parmentier)",
         "Navets : 1 kg",
         "Chou-fleur : 1 gros (1,2 kg)",
         "Champignons de Paris : 250 g",
@@ -42,17 +42,17 @@
       ],
       proteines: [
         "Paupiettes : 2 à 4 pièces (veau ou porc)",
-        "Viande hachée ou Thon : 250 g (pour son parmentier)",
+        "Viande hachée ou Thon : 250 g (pour le parmentier de Nico)",
         "Parmesan râpé : Pour son risotto et pour gratiner son parmentier"
       ]
     };
 
-    const batchCookingSteps = [
-      { temps: "T0 (Cuissons à l'eau & Four)", desc: "Faites cuire les pommes de terre à l'eau pour la purée du parmentier. Étalez les fleurettes de chou-fleur et une partie des carottes en rondelles sur une plaque. Arrosez d'huile d'olive et enfournez à 200°C pour 25 min (poêlée rôtie)." },
-      { temps: "T25 (Mijotés & Protéines)", desc: "Saisissez les paupiettes à la sauteuse et réservez-les. Lancez la daube douce (navets, carottes, pommes de terre, oignons, concentré de tomate, thym) à feu doux pour 40 min. Faites rôtir les dés de carottes au cumin pour le risotto." },
-      { temps: "T55 (Parmentier)", desc: "Faites revenir les champignons, carottes et oignons hachés. Écrasez les pommes de terre cuites en purée. Montez le parmentier légumes au fond + purée (et ajoutez la viande hachée/thon sur la section de Nicolas). Enfournez 25 min à 180°C." },
-      { temps: "T80 (Risotto & Assemblages)", desc: "Préparez le risotto (riz classique / substitut PCU), incorporez la brunoise de carottes au cumin et le persil frais. Faites cuire le riz d'accompagnement." },
-      { temps: "T110 (Conditionnement)", desc: "Répartissez les plats dans vos boîtes hermétiques et laissez refroidir avant de mettre au frais." }
+    const batchStepsData = [
+      { temps: "T0 (Cuissons à l'eau & Four)", desc: "Faites cuire les pommes de terre à l'eau pour la purée du parmentier. Étalez les fleurettes de chou-fleur et des rondelles de carottes sur une plaque avec huile d'olive. Enfournez à 200°C pour 25 min (poêlée rôtie)." },
+      { temps: "T25 (Mijotés & Protéines)", desc: "Saisissez les paupiettes à la sauteuse et réservez-les. Lancez la daube douce (navets, carottes, patates, oignons, concentré de tomate, thym) à feu doux pour 40 min. Faites rôtir les dés de carottes au cumin pour le risotto." },
+      { temps: "T55 (Parmentier)", desc: "Faites revenir champignons, carottes et oignons hachés. Écrasez les pommes de terre en purée. Montez le parmentier légumes au fond + purée (+ viande/thon sur la part de Nico). Enfournez 25 min à 180°C." },
+      { temps: "T80 (Risotto & Assemblages)", desc: "Préparez le risotto (riz classique / substitut PCU), incorporez les carottes au cumin et le persil. Cuisez le riz d'accompagnement." },
+      { temps: "T110 (Conditionnement)", desc: "Répartissez les préparations dans vos boîtes hermétiques et laissez refroidir avant de mettre au frais." }
     ];
 
     function App() {
@@ -65,19 +65,17 @@
             <p className="text-slate-600">Menus, liste de courses & organisation</p>
           </header>
 
-          <!-- Navigation Onglets -->
           <div className="flex flex-wrap justify-center gap-2 border-b pb-4">
             <button onClick={() => setTab('planning')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'planning' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>📅 Planning</button>
             <button onClick={() => setTab('courses')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'courses' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🛒 Courses</button>
             <button onClick={() => setTab('batch')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'batch' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>⏱️ Batch Cooking (2h)</button>
           </div>
 
-          <!-- Section Planning -->
           {tab === 'planning' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-4">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">📅 Planning de la Semaine</h2>
               <div className="grid gap-3">
-                {planning.map((p, index) => (
+                {planningData.map((p, index) => (
                   <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 rounded-lg border gap-2">
                     <span className="font-bold text-slate-700 w-28 shrink-0">{p.jour}</span>
                     <div className="text-sm"><strong>Midi :</strong> {p.midi}</div>
@@ -88,39 +86,37 @@
             </section>
           )}
 
-          <!-- Section Courses -->
           {tab === 'courses' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
-              <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🛒 Liste de Courses Completes</h2>
+              <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🛒 Liste de Courses Complète</h2>
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="bg-emerald-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-emerald-800 mb-2">🥦 Légumes, Fruits & Herbes</h3>
+                  <h3 className="font-bold text-emerald-800 mb-2">🥦 Légumes & Herbes</h3>
                   <ul className="text-sm space-y-1 list-disc list-inside">
-                    {courses.legumes.map((item, i) => <li key={i}>{item}</li>)}
+                    {coursesData.legumes.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
                 <div className="bg-amber-50 p-4 rounded-lg">
                   <h3 className="font-bold text-amber-800 mb-2">📦 Épicerie & Féculents</h3>
                   <ul className="text-sm space-y-1 list-disc list-inside">
-                    {courses.epicerie.map((item, i) => <li key={i}>{item}</li>)}
+                    {coursesData.epicerie.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
                 <div className="bg-rose-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-rose-800 mb-2">🥩 Protéines (Nicolas uniquement)</h3>
+                  <h3 className="font-bold text-rose-800 mb-2">🥩 Protéines (Nicolas)</h3>
                   <ul className="text-sm space-y-1 list-disc list-inside">
-                    {courses.proteines.map((item, i) => <li key={i}>{item}</li>)}
+                    {coursesData.proteines.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
               </div>
             </section>
           )}
 
-          <!-- Section Batch Cooking -->
           {tab === 'batch' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">⏱️ Organisation du Batch Cooking (2h)</h2>
               <div className="space-y-3">
-                {batchCookingSteps.map((step, i) => (
+                {batchStepsData.map((step, i) => (
                   <div key={i} className="flex flex-col sm:flex-row gap-3 items-start p-3 bg-slate-50 rounded-lg border">
                     <span className="font-bold text-emerald-700 whitespace-nowrap min-w-[200px]">{step.temps}</span>
                     <p className="text-sm text-slate-700">{step.desc}</p>
