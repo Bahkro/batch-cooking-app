@@ -4,28 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Batch Cooking - Application Web</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Chargement des dépendances via CDNJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-800">
   <div id="root">
-    <div class="p-8 text-center text-slate-500">Chargement de l'application...</div>
+    <div class="p-8 text-center text-slate-500 font-sans">Chargement de l'application...</div>
   </div>
 
   <script type="text/babel">
-    const { useState } = React;
-
-    // Plans de secours générés pour Gemini
     const databaseSemaines = [
       {
         planning: [
-          { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (Riz / PCU) (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
+          { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
           { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
           { jour: "Mercredi", midi: "🍲 Daube douce de navets, carottes & patates (Reste)", soir: "🥕 Risotto de carottes au cumin (Reste)" },
           { jour: "Jeudi", midi: "🥔 Hachis parmentier (Reste)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes (Reste)" },
-          { jour: "Vendredi", midi: "🥦 Poêlée rôtie de chou-fleur & carottes & Riz (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates (Reste)" }
+          { jour: "Vendredi", midi: "🥦 Poêlée rôtie de chou-fleur & carottes (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates (Reste)" }
         ],
         courses: {
           legumes: ["Pommes de terre : 2,3 kg", "Carottes : 2,5 kg", "Navets : 1 kg", "Chou-fleur : 1,2 kg", "Champignons : 250 g", "Ail, Oignons, Persil, Thym"],
@@ -34,27 +32,9 @@
         },
         recettes: [
           { titre: "Risotto de carottes au cumin", pas: "Faites rôtir des dés de carottes au cumin. Lancez la base de risotto. Incorporez les carottes et le persil.", nico: "Ajouter du parmesan et une paupiette poêlée.", loic: "Utiliser exclusivement le substitut de riz PCU." },
-          { titre: "Daube douce de navets & carottes", pas: "Faites revenir oignons, navets et carottes. Ajoutez le concentré de tomate, le thym, l'ail et mouillez au bouillon. Laissez confire 40 min.", nico: "Peut se déguster avec une portion de paupiette.", loic: "Nature ou avec supplément de pommes de terre." },
+          { titre: "Daube douce de navets & carottes", pas: "Faites revenir oignons, navets et carottes. Ajoutez le concentré de tomate, le thym, l'ail et mouillez au bouillon.", nico: "Peut se déguster avec une portion de paupiette.", loic: "Nature ou avec supplément de pommes de terre." },
           { titre: "Hachis Parmentier aux légumes", pas: "Faites revenir champignons et carottes. Préparez une purée de pommes de terre. Étalez légumes + purée.", nico: "Ajouter de la viande hachée/thon au fond et gratiner au parmesan.", loic: "Garder la portion 100% légumes et purée sans protéines." },
-          { titre: "Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur et les carottes. Enfournez à 200°C pendant 25 min avec de l'huile d'olive et du sésame.", nico: "Servir avec du riz classique et de la viande.", loic: "Servir avec du substitut de riz PCU." }
-        ]
-      },
-      {
-        planning: [
-          { jour: "Lundi", midi: "🥢 Wok de Chou Chinois & Carottes (Riz / PCU)", soir: "🥣 Velouté Panais & Céleri-rave" },
-          { jour: "Mardi", midi: "🥔 Hachis Parmentier Légumes & Champignons", soir: "🥧 Gratin de Pâtes aux Poireaux & Crème" },
-          { jour: "Mercredi", midi: "🍄 Risotto aux Champignons & Épinards", soir: "🥢 Wok de Chou Chinois & Carottes (Reste)" },
-          { jour: "Jeudi", midi: "🥣 Velouté Panais & Céleri-rave (Reste)", soir: "🥔 Hachis Parmentier (Reste)" },
-          { jour: "Vendredi", midi: "🥧 Gratin de Pâtes aux Poireaux & Crème (Reste)", soir: "🍄 Risotto aux Champignons & Épinards (Reste)" }
-        ],
-        courses: {
-          legumes: ["Chou chinois : 1 pc", "Panais : 800g", "Céleri-rave : 1/2", "Poireaux : 1kg", "Épinards : 300g", "Champignons : 400g"],
-          epicerie: ["Pâtes classiques / Substitut PCU", "Riz / Substitut PCU", "Crème végétale", "Huile de sésame, Sauce soja"],
-          proteines: ["Poulet émincé (Nico)", "Fromage râpé pour le gratin (Nico)"]
-        },
-        recettes: [
-          { titre: "Wok de chou chinois & carottes", pas: "Emincez le chou et les carottes. Saisissez à feu vif au wok avec huile de sésame et ail pendant 10 min.", nico: "Ajouter du poulet émincé poêlé à part.", loic: "Accompagner de pâtes/riz substituts PCU." },
-          { titre: "Velouté panais & céleri-rave", pas: "Faites cuire les dés de panais et céleri dans un bouillon. Mixez finement avec un trait de crème végétale.", nico: "Ajouter des croûtons et du fromage râpé.", loic: "Consommer directement (très faible en protéines)." }
+          { titre: "Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur et les carottes. Enfournez à 200°C pendant 25 min avec de l'huile d'olive.", nico: "Servir avec du riz classique et de la viande.", loic: "Servir avec du substitut de riz PCU." }
         ]
       }
     ];
@@ -62,74 +42,47 @@
     const propositionsRemplacement = [
       { nom: "🥧 Tarte fine aux poireaux & pommes", desc: "Poireaux fondants & tranches de pommes rôties." },
       { nom: "🍛 Curry de patates douces & coco", desc: "Douceur de coco, patates douces et épices douces." },
-      { nom: "🥘 Blanquette printanière de légumes", desc: "Carottes, navets et courgettes napper d'une sauce crémeuse." },
-      { nom: "🌮 Chili Sin Carne aux poivrons & maïs", desc: "Haricots rouges, maïs et coulis de tomate (sans lentilles)." }
+      { nom: "🥘 Blanquette printanière de légumes", desc: "Carottes, navets et courgettes nappés d'une sauce crémeuse." }
     ];
 
     function App() {
-      const [tab, setTab] = useState('planning');
-      const [currentSemaineIndex, setCurrentSemaineIndex] = useState(0);
-      const [semaineData, setSemaineData] = useState(databaseSemaines[0]);
-      
-      // Gestion de la modale de remplacement de recette
-      const [selectedSlot, setSelectedSlot] = useState(null); // { dayIndex, type: 'midi'|'soir', oldTitle }
-      const [newRecipeChoice, setNewRecipeChoice] = useState(propositionsRemplacement[0].nom);
-
-      const genererNouveauPlan = () => {
-        const nextIndex = (currentSemaineIndex + 1) % databaseSemaines.length;
-        setCurrentSemaineIndex(nextIndex);
-        setSemaineData(databaseSemaines[nextIndex]);
-        alert("✨ Gemini a généré un nouveau plan de semaine adapté !");
-      };
+      const [tab, setTab] = React.useState('planning');
+      const [semaineData, setSemaineData] = React.useState(databaseSemaines[0]);
+      const [selectedSlot, setSelectedSlot] = React.useState(null);
+      const [newRecipeChoice, setNewRecipeChoice] = React.useState(propositionsRemplacement[0].nom);
 
       const confirmerRemplacement = () => {
         if (!selectedSlot) return;
         const newPlanning = [...semaineData.planning];
         newPlanning[selectedSlot.dayIndex][selectedSlot.type] = newRecipeChoice;
-        
-        setSemaineData({
-          ...semaineData,
-          planning: newPlanning
-        });
+        setSemaineData({ ...semaineData, planning: newPlanning });
         setSelectedSlot(null);
       };
 
       return (
-        <div className="max-w-4xl mx-auto p-4 space-y-6">
+        <div className="max-w-4xl mx-auto p-4 space-y-6 font-sans">
           <header className="text-center my-6">
             <h1 className="text-3xl font-bold text-emerald-700">🥘 Batch Cooking - Application Web</h1>
             <p className="text-slate-600">Adapté pour Nicolas (Sans lentilles) & Loïc (Régime PCU)</p>
           </header>
 
-          <!-- Navigation Onglets -->
           <div className="flex flex-wrap justify-center gap-2 border-b pb-4">
-            <button onClick={() => setTab('planning')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'planning' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>📅 Planning</button>
-            <button onClick={() => setTab('recettes')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'recettes' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🍳 Recettes Détaillées</button>
-            <button onClick={() => setTab('courses')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'courses' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🛒 Courses</button>
-            <button onClick={() => setTab('gemini')} className={`px-4 py-2 rounded-lg font-medium ${tab === 'gemini' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 border-indigo-200 border'}`}>🤖 Générateur Gemini</button>
+            <button onClick={() => setTab('planning')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'planning' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>📅 Planning</button>
+            <button onClick={() => setTab('recettes')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'recettes' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🍳 Recettes Détaillées</button>
+            <button onClick={() => setTab('courses')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'courses' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🛒 Courses</button>
           </div>
 
-          <!-- Section Planning -->
           {tab === 'planning' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-4">
-              <div className="flex justify-between items-center border-b pb-2">
-                <h2 className="text-xl font-semibold text-emerald-600">📅 Planning de la Semaine</h2>
-                <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded">Cliquez sur un repas pour le modifier</span>
-              </div>
+              <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">📅 Planning de la Semaine</h2>
               <div className="grid gap-3">
                 {semaineData.planning.map((p, index) => (
                   <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 rounded-lg border gap-2">
                     <span className="font-bold text-slate-700 w-24 shrink-0">{p.jour}</span>
-                    <div 
-                      onClick={() => setSelectedSlot({ dayIndex: index, type: 'midi', oldTitle: p.midi })}
-                      className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200"
-                    >
+                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'midi', oldTitle: p.midi })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
                       <strong>Midi :</strong> {p.midi}
                     </div>
-                    <div 
-                      onClick={() => setSelectedSlot({ dayIndex: index, type: 'soir', oldTitle: p.soir })}
-                      className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200"
-                    >
+                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'soir', oldTitle: p.soir })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
                       <strong>Soir :</strong> {p.soir}
                     </div>
                   </div>
@@ -138,7 +91,6 @@
             </section>
           )}
 
-          <!-- Section Recettes Détaillées -->
           {tab === 'recettes' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🍳 Fiches Recettes Détaillées</h2>
@@ -146,14 +98,10 @@
                 {semaineData.recettes.map((r, i) => (
                   <div key={i} className="border rounded-xl p-5 bg-slate-50 space-y-3">
                     <h3 className="text-lg font-bold text-slate-800 border-b pb-1">{r.titre}</h3>
-                    <p className="text-sm text-slate-700"><strong>Préparation pas à pas :</strong> {r.pas}</p>
+                    <p className="text-sm text-slate-700"><strong>Préparation :</strong> {r.pas}</p>
                     <div className="grid sm:grid-cols-2 gap-3 pt-2">
-                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 text-xs text-blue-900">
-                        <strong>🥩 Option Nicolas :</strong> {r.nico}
-                      </div>
-                      <div className="bg-purple-50 p-3 rounded-lg border border-purple-100 text-xs text-purple-900">
-                        <strong>🥗 Option Loïc (PCU) :</strong> {r.loic}
-                      </div>
+                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 text-xs text-blue-900"><strong>🥩 Option Nicolas :</strong> {r.nico}</div>
+                      <div className="bg-purple-50 p-3 rounded-lg border border-purple-100 text-xs text-purple-900"><strong>🥗 Option Loïc (PCU) :</strong> {r.loic}</div>
                     </div>
                   </div>
                 ))}
@@ -161,7 +109,6 @@
             </section>
           )}
 
-          <!-- Section Courses -->
           {tab === 'courses' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🛒 Liste de Courses</h2>
@@ -173,7 +120,7 @@
                   </ul>
                 </div>
                 <div className="bg-amber-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-amber-800 mb-2">📦 Épicerie & Féculents</h3>
+                  <h3 className="font-bold text-amber-800 mb-2">📦 Épicerie</h3>
                   <ul className="text-sm space-y-1 list-disc list-inside">
                     {semaineData.courses.epicerie.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
@@ -188,75 +135,26 @@
             </section>
           )}
 
-          <!-- Section Générateur Gemini -->
-          {tab === 'gemini' && (
-            <section className="bg-white p-6 rounded-xl shadow-md space-y-6 border-2 border-indigo-100">
-              <div className="text-center space-y-2">
-                <h2 className="text-xl font-semibold text-indigo-700">🤖 Assistant Gemini Batch Cooking</h2>
-                <p className="text-sm text-slate-600 max-w-lg mx-auto">
-                  Générez automatiquement un nouveau plan hebdomadaire sur-mesure respectant vos contraintes : <strong>sans lentilles pour Nicolas</strong> et <strong>régime faible en protéines (PCU) pour Loïc</strong>.
-                </p>
-              </div>
-
-              <div className="flex justify-center pt-2">
-                <button 
-                  onClick={genererNouveauPlan}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition transform active:scale-95 flex items-center gap-2"
-                >
-                  ✨ Générer un nouveau plan de semaine
-                </button>
-              </div>
-
-              <div className="bg-indigo-50 p-4 rounded-lg text-xs text-indigo-800 space-y-1">
-                <p className="font-bold">💡 Astuce :</p>
-                <p>Vous pouvez aussi personnaliser le plan actif en allant dans l'onglet <strong>Planning</strong> et en cliquant directement sur le repas que vous souhaitez faire remplacer par Gemini.</p>
-              </div>
-            </section>
-          )}
-
-          <!-- Modale de Confirmation de changement de recette -->
           {selectedSlot && (
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
               <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
                 <h3 className="text-lg font-bold text-slate-800">🔄 Remplacer une recette</h3>
                 <p className="text-sm text-slate-600">
-                  Modifier le repas du <strong>{semaineData.planning[selectedSlot.dayIndex].jour} ({selectedSlot.type})</strong> :
+                  Modifier le repas du <strong>{semaineData.planning[selectedSlot.dayIndex]?.jour} ({selectedSlot.type})</strong> :
                 </p>
-                <div className="p-3 bg-slate-100 rounded-lg text-xs text-slate-500 line-through">
-                  {selectedSlot.oldTitle}
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Choisir la recette de remplacement proposé par Gemini :</label>
-                  <select 
-                    value={newRecipeChoice} 
-                    onChange={(e) => setNewRecipeChoice(e.target.value)}
-                    className="w-full p-2.5 border rounded-lg text-sm bg-white"
-                  >
-                    {propositionsRemplacement.map((prop, idx) => (
-                      <option key={idx} value={prop.nom}>{prop.nom} — {prop.desc}</option>
-                    ))}
-                  </select>
-                </div>
-
+                <div className="p-3 bg-slate-100 rounded-lg text-xs text-slate-500 line-through">{selectedSlot.oldTitle}</div>
+                <select value={newRecipeChoice} onChange={(e) => setNewRecipeChoice(e.target.value)} className="w-full p-2.5 border rounded-lg text-sm bg-white">
+                  {propositionsRemplacement.map((prop, idx) => (
+                    <option key={idx} value={prop.nom}>{prop.nom} — {prop.desc}</option>
+                  ))}
+                </select>
                 <div className="flex justify-end gap-2 pt-2">
-                  <button 
-                    onClick={() => setSelectedSlot(null)}
-                    className="px-4 py-2 rounded-lg text-slate-600 text-sm hover:bg-slate-100"
-                  >
-                    Annuler
-                  </button>
-                  <button 
-                    onClick={confirmerRemplacement}
-                    className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 shadow"
-                  >
-                    Confirmer le changement
-                  </button>
+                  <button onClick={() => setSelectedSlot(null)} className="px-4 py-2 rounded-lg text-slate-600 text-sm hover:bg-slate-100">Annuler</button>
+                  <button onClick={confirmerRemplacement} className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 shadow">Confirmer</button>
                 </div>
               </div>
             </div>
           )}
-
         </div>
       );
     }
