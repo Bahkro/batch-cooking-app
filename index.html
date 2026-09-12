@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Batch Cooking - Planning & Recettes</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const planning = [
+      { jour: "Lundi", midi: "Caponata aux figues fraîches & Riz", soir: "Gaspacho de tomates anciennes, poivrons & pastèque" },
+      { jour: "Mardi", midi: "Tarte fine aux poivrons rôtis & romarin", soir: "Gratin d'aubergines & courgettes au coulis de tomates" },
+      { jour: "Mercredi", midi: "Tian d'été tardif", soir: "Caponata aux figues (Reste)" },
+      { jour: "Jeudi", midi: "Tarte fine aux poivrons (Reste)", soir: "Tian d'été tardif (Reste)" },
+      { jour: "Vendredi", midi: "Gratin d'aubergines & courgettes", soir: "Velouté glacé de courgettes au lait de coco & menthe" }
+    ];
+
+    function App() {
+      return (
+        <div class="max-w-4xl mx-auto p-4 space-y-6">
+          <header class="text-center my-6">
+            <h1 class="text-3xl font-bold text-emerald-700">🥘 Batch Cooking - Programme Web</h1>
+            <p class="text-slate-600">Menus, recettes et liste de courses</p>
+          </header>
+
+          <section class="bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-xl font-semibold mb-4 text-emerald-600">📅 Planning de la Semaine</h2>
+            <div class="grid gap-3">
+              {planning.map((p, index) => (
+                <div key={index} class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 rounded-lg border">
+                  <span class="font-bold text-slate-700 w-28">{p.jour}</span>
+                  <div class="text-sm"><strong>Midi :</strong> {p.midi}</div>
+                  <div class="text-sm"><strong>Soir :</strong> {p.soir}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
