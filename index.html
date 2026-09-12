@@ -121,6 +121,11 @@
       const [tab, setTab] = React.useState('planning');
       const [semaineData, setSemaineData] = React.useState(databaseSemaines[0]);
       
+      // Historique des semaines (initialisé avec la première semaine)
+      const [historique, setHistorique] = React.useState([
+        { ...databaseSemaines[0], dateAjout: "Semaine en cours" }
+      ]);
+
       const [filtreSaison, setFiltreSaison] = React.useState('Toutes');
       const [filtreStyle, setFiltreStyle] = React.useState('Tous');
       const [propositionSemaine, setPropositionSemaine] = React.useState(databaseSemaines[1]);
@@ -139,15 +144,38 @@
 
       const validerNouvelleSemaine = () => {
         setSemaineData(propositionSemaine);
+        
+        // Ajout à l'historique
+        const nouvelleEntree = {
+          ...propositionSemaine,
+          dateAjout: `Validée le ${new Date().toLocaleDateString('fr-FR')}`
+        };
+        setHistorique(prev => [nouvelleEntree, ...prev]);
+
         setTab('planning');
         alert(`✨ Le menu "${propositionSemaine.titre}" a été appliqué à votre planning, votre organisation et vos courses !`);
+      };
+
+      const rechargerSemaineHistorique = (semaine) => {
+        setSemaineData(semaine);
+        setTab('planning');
+        alert(`🔄 Le menu "${semaine.titre}" a été rechargé dans votre planning !`);
       };
 
       const confirmerRemplacement = () => {
         if (!selectedSlot) return;
         const newPlanning = [...semaineData.planning];
         newPlanning[selectedSlot.dayIndex][selectedSlot.type] = newRecipeChoice;
-        setSemaineData({ ...semaineData, planning: newPlanning });
+        
+        const nouvelleSemaineModifiee = { ...semaineData, planning: newPlanning };
+        setSemaineData(nouvelleSemaineModifiee);
+
+        // Mise à jour ou ajout dans l'historique après modification
+        setHistorique(prev => [
+          { ...nouvelleSemaineModifiee, dateAjout: `Modifiée le ${new Date().toLocaleDateString('fr-FR')}` },
+          ...prev
+        ]);
+
         setSelectedSlot(null);
       };
 
@@ -166,6 +194,7 @@
             <button onClick={() => setTab('organisation')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'organisation' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>⏱️ Organisation (2h30)</button>
             <button onClick={() => setTab('recettes')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'recettes' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🍳 Recettes Détaillées</button>
             <button onClick={() => setTab('courses')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'courses' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🛒 Courses</button>
+            <button onClick={() => setTab('historique')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'historique' ? 'bg-amber-600 text-white' : 'bg-white text-amber-800 border border-amber-200'}`}>📚 Historique ({historique.length})</button>
             <button onClick={() => setTab('gemini')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'gemini' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 border border-indigo-200'}`}>🤖 Nouvelle Semaine</button>
           </div>
 
@@ -248,6 +277,30 @@
                     {semaineData.courses.proteines.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
                 </div>
+              </div>
+            </section>
+          )}
+
+          {/* Onglet Historique */}
+          {tab === 'historique' && (
+            <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
+              <h2 className="text-xl font-semibold text-amber-700 border-b pb-2">📚 Historique des Semaines Générées & Validées</h2>
+              <div className="space-y-4">
+                {historique.map((sem, idx) => (
+                  <div key={idx} className="border rounded-xl p-4 bg-amber-50/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold text-slate-800 text-base">{sem.titre}</h3>
+                        <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium">{sem.saison}</span>
+                      </div>
+                      <p className="text-xs text-slate-500">{sem.dateAjout || "Archives"}</p>
+                      <p className="text-xs text-slate-600 italic">Exemple de plats : {sem.planning[0]?.midi} / {sem.planning[1]?.soir}</p>
+                    </div>
+                    <button onClick={() => rechargerSemaineHistorique(sem)} className="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow transition shrink-0">
+                      🔄 Recharger cette semaine
+                    </button>
+                  </div>
+                ))}
               </div>
             </section>
           )}
