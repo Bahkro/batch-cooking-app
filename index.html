@@ -19,8 +19,8 @@
       {
         id: "semaine-automne-racines",
         titre: "🍂 Automne — Légumes Racines & Douceur",
-        saison: "Automne / Hiver",
-        style: "Réconfortant & Plats mijotés",
+        saison: "Automne",
+        styles: ["Réconfortant & Mijoté", "Gratins & Tartes"],
         planning: [
           { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
           { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
@@ -51,7 +51,7 @@
         id: "semaine-hiver-veloutes",
         titre: "❄️ Hiver — Veloutés & Wok Gourmand",
         saison: "Hiver",
-        style: "Soupes réconfortantes & Poêlées rapides",
+        styles: ["Soupes & Veloutés", "Wok & Poêlées", "Gratins & Tartes"],
         planning: [
           { jour: "Lundi", midi: "🥢 Wok de chou chinois & carottes au sésame", soir: "🥣 Velouté doux de panais & céleri-rave" },
           { jour: "Mardi", midi: "🥔 Gratin de pommes de terre & courges rôties", soir: "🥧 Tarte fine aux poireaux & pommes" },
@@ -81,7 +81,7 @@
         id: "semaine-printemps-douceur",
         titre: "🌱 Printemps — Légumes Verts & Curry Doux",
         saison: "Printemps",
-        style: "Léger & Épices douces",
+        styles: ["Curry & Épices douces", "Réconfortant & Mijoté"],
         planning: [
           { jour: "Lundi", midi: "🍛 Curry de patates douces & courgettes au coco", soir: "🥘 Blanquette printanière de navets & carottes" },
           { jour: "Mardi", midi: "🥔 Purée de pommes de terre aux poireaux fondants", soir: "🥦 Poêlée rôtie de brocolis & carottes" },
@@ -107,45 +107,100 @@
           { titre: "3. Purée de pommes de terre aux poireaux fondants", pas: "Faites fondre les poireaux émincés à feu doux. Incorporez-les à une purée maison de pommes de terre à la muscade.", nico: "Servir avec la protéine du jour.", loic: "Servir en portion contrôlée selon les recommandations du régime." },
           { titre: "4. Poêlée rôtie de brocolis & carottes", pas: "Mélangez les fleurettes de brocolis et rondelles de carottes avec l'huile d'olive. Enfournez jusqu'à coloration tendre.", nico: "Ajouter du fromage râpé ou des graines rôties.", loic: "Consommer accompagné de riz PCU." }
         ]
+      },
+      {
+        id: "semaine-ete-fraicheur",
+        titre: "☀️ Été — Salades Croquantes & Poêlées Ensoleillées",
+        saison: "Été",
+        styles: ["Salades & Fraîcheur", "Wok & Poêlées"],
+        planning: [
+          { jour: "Lundi", midi: "🥗 Salade croquante de concombre, maïs & radis", soir: "🍆 Ratatouille douce aux courgettes & poivrons" },
+          { jour: "Mardi", midi: "🥔 Salade tiède de pommes de terre & herbes fraîches", soir: "🥒 Poêlée de courgettes & tomates rôties" },
+          { jour: "Mercredi", midi: "🍆 Ratatouille douce (Reste)", soir: "🥗 Salade croquante de concombre, maïs & radis (Reste)" },
+          { jour: "Jeudi", midi: "🥒 Poêlée de courgettes & tomates rôties (Reste)", soir: "🥔 Salade tiède de pommes de terre & herbes (Reste)" },
+          { jour: "Vendredi", midi: "🥗 Salade croquante (+ Thon Nico)", soir: "🍆 Ratatouille douce (Reste)" }
+        ],
+        courses: {
+          legumes: ["Concombres : 2 pcs", "Courgettes : 2 kg", "Poivrons doux : 1 kg", "Tomates : 1,5 kg", "Pommes de terre : 1,5 kg", "Radis : 1 botte", "Ail, Basilic"],
+          epicerie: ["Maïs en conserve : 1 boîte", "Huile d'olive, Vinaigre", "Pâtes PCU / Riz"],
+          proteines: ["Thon en boîte / Brochettes poulet (Nico) : 400g", "Féta (Nico)"]
+        },
+        organisation: [
+          { temps: "0 - 30 min", titre: "Mijoté Ratatouille", desc: "Couper courgettes, poivrons et tomates. Mettre à mijoter la ratatouille avec un filet d'huile d'olive et de l'ail." },
+          { temps: "30 - 1h00", titre: "Cuisson Pommes de terre & Poêlée", desc: "Faire cuire les pommes de terre à la vapeur. Poêler à feu vif le reste de courgettes et tomates." },
+          { temps: "1h00 - 1h40", titre: "Découpes Salades", desc: "Trancher concombres et radis. Préparer les assaisonnements séparés pour conserver la fraîcheur." },
+          { temps: "1h40 - 2h10", titre: "Cuisson Protéines Nico & PCU", desc: "Griller les brochettes de poulet pour Nicolas. Préparer les substituts de féculents Loïc." },
+          { temps: "2h10 - 2h30", titre: "Mise en boîtes", desc: "Ranger l'ensemble dans les contenants au frais." }
+        ],
+        recettes: [
+          { titre: "1. Salade croquante concombre & maïs", pas: "Tailler les concombres et radis en fines rondelles. Mélanger avec le maïs et une vinaigrette légère.", nico: "Ajouter du thon émietté et de la féta.", loic: "Consommer avec féculent PCU au besoin." },
+          { titre: "2. Ratatouille douce courgettes & poivrons", pas: "Faire confire les légumes à feu doux dans de l'huile d'olive avec de l'ail et du basilic.", nico: "Servir avec des brochettes de poulet.", loic: "Servir tel quel ou avec pommes de terre vapeur." },
+          { titre: "3. Salade tiède de pommes de terre & herbes", pas: "Dés de pommes de terre cuites à la vapeur assaisonnées d'une vinaigrette aux herbes.", nico: "Accompagner de la protéine au choix.", loic: "Adapter la portion selon les recommandations PCU." },
+          { titre: "4. Poêlée de courgettes & tomates rôties", pas: "Saisir les légumes à feu vif avec un filet d'huile d'olive jusqu'à coloration.", nico: "Agrémenter de fromage râpé.", loic: "Consommer avec riz PCU." }
+        ]
       }
+    ];
+
+    const stylesDisponibles = [
+      "Réconfortant & Mijoté",
+      "Soupes & Veloutés",
+      "Wok & Poêlées",
+      "Gratins & Tartes",
+      "Curry & Épices douces",
+      "Salades & Fraîcheur"
     ];
 
     const propositionsRemplacement = [
       { nom: "🥧 Tarte fine aux poireaux & pommes", desc: "Poireaux fondants & tranches de pommes rôties." },
       { nom: "🍛 Curry de patates douces & coco", desc: "Douceur de coco, patates douces et épices douces." },
       { nom: "🥘 Blanquette printanière de légumes", desc: "Carottes, navets et courgettes nappés d'une sauce crémeuse." },
-      { nom: "🌮 Chili Sin Carne aux poivrons & maïs", desc: "Poivrons, maïs, haricots rouges et coulis de tomate (sans lentilles)." }
+      { nom: "🌮 Chili Sin Carne aux poivrons & maïs", desc: "Poivrons, maïs, haricots rouges et coulis de tomate (sans lentilles)." },
+      { nom: "🥗 Salade croquante concombre & maïs", desc: "Concombres, radis, maïs et vinaigrette aux herbes." },
+      { nom: "🍆 Ratatouille douce aux courgettes", desc: "Courgettes, poivrons et tomates confites à l'huile d'olive." }
     ];
 
     function App() {
       const [tab, setTab] = React.useState('planning');
       const [semaineData, setSemaineData] = React.useState(databaseSemaines[0]);
       
-      // Historique des semaines (initialisé avec la première semaine)
       const [historique, setHistorique] = React.useState([
-        { ...databaseSemaines[0], dateAjout: "Semaine en cours" }
+        { ...databaseSemaines[0], dateAjout: "Semaine initiale" }
       ]);
 
       const [filtreSaison, setFiltreSaison] = React.useState('Toutes');
-      const [filtreStyle, setFiltreStyle] = React.useState('Tous');
-      const [propositionSemaine, setPropositionSemaine] = React.useState(databaseSemaines[1]);
+      const [selectedStyles, setSelectedStyles] = React.useState([]);
+      const [propositionSemaine, setPropositionSemaine] = React.useState(JSON.parse(JSON.stringify(databaseSemaines[1])));
 
       const [selectedSlot, setSelectedSlot] = React.useState(null);
       const [newRecipeChoice, setNewRecipeChoice] = React.useState(propositionsRemplacement[0].nom);
 
+      const [coursesCochees, setCoursesCochees] = React.useState({});
+
+      // Filtrage dynamique pour le générateur
       React.useEffect(() => {
-        const trouvee = databaseSemaines.find(s => 
-          (filtreSaison === 'Toutes' || s.saison.includes(filtreSaison)) &&
-          (filtreStyle === 'Tous' || s.style.includes(filtreStyle)) &&
-          s.id !== semaineData.id
+        const trouvee = databaseSemaines.find(s => {
+          const matchSaison = (filtreSaison === 'Toutes' || s.saison === filtreSaison);
+          const matchStyle = selectedStyles.length === 0 || selectedStyles.some(st => s.styles.includes(st));
+          return matchSaison && matchStyle && s.id !== semaineData.id;
+        });
+        const base = trouvee || databaseSemaines.find(s => s.id !== semaineData.id) || databaseSemaines[0];
+        setPropositionSemaine(JSON.parse(JSON.stringify(base)));
+      }, [filtreSaison, selectedStyles, semaineData]);
+
+      const toggleStyleFilter = (style) => {
+        setSelectedStyles(prev => 
+          prev.includes(style) ? prev.filter(s => s !== style) : [...prev, style]
         );
-        setPropositionSemaine(trouvee || databaseSemaines.find(s => s.id !== semaineData.id) || databaseSemaines[0]);
-      }, [filtreSaison, filtreStyle, semaineData]);
+      };
+
+      const toggleCourse = (item) => {
+        setCoursesCochees(prev => ({ ...prev, [item]: !prev[item] }));
+      };
 
       const validerNouvelleSemaine = () => {
         setSemaineData(propositionSemaine);
+        setCoursesCochees({});
         
-        // Ajout à l'historique
         const nouvelleEntree = {
           ...propositionSemaine,
           dateAjout: `Validée le ${new Date().toLocaleDateString('fr-FR')}`
@@ -153,29 +208,33 @@
         setHistorique(prev => [nouvelleEntree, ...prev]);
 
         setTab('planning');
-        alert(`✨ Le menu "${propositionSemaine.titre}" a été appliqué à votre planning, votre organisation et vos courses !`);
+        alert(`✨ Le menu "${propositionSemaine.titre}" a été appliqué !`);
       };
 
-      const rechargerSemaineHistorique = (semaine) => {
-        setSemaineData(semaine);
+      const rechargerSemaineHistorique = (sem) => {
+        setSemaineData(sem);
+        setCoursesCochees({});
         setTab('planning');
-        alert(`🔄 Le menu "${semaine.titre}" a été rechargé dans votre planning !`);
+        alert(`🔄 Le menu "${sem.titre}" a été rechargé !`);
       };
 
       const confirmerRemplacement = () => {
         if (!selectedSlot) return;
-        const newPlanning = [...semaineData.planning];
-        newPlanning[selectedSlot.dayIndex][selectedSlot.type] = newRecipeChoice;
-        
-        const nouvelleSemaineModifiee = { ...semaineData, planning: newPlanning };
-        setSemaineData(nouvelleSemaineModifiee);
 
-        // Mise à jour ou ajout dans l'historique après modification
-        setHistorique(prev => [
-          { ...nouvelleSemaineModifiee, dateAjout: `Modifiée le ${new Date().toLocaleDateString('fr-FR')}` },
-          ...prev
-        ]);
-
+        if (selectedSlot.isPreview) {
+          const newPlanning = [...propositionSemaine.planning];
+          newPlanning[selectedSlot.dayIndex][selectedSlot.type] = newRecipeChoice;
+          setPropositionSemaine({ ...propositionSemaine, planning: newPlanning });
+        } else {
+          const newPlanning = [...semaineData.planning];
+          newPlanning[selectedSlot.dayIndex][selectedSlot.type] = newRecipeChoice;
+          const nouvelleSem = { ...semaineData, planning: newPlanning };
+          setSemaineData(nouvelleSem);
+          setHistorique(prev => [
+            { ...nouvelleSem, dateAjout: `Modifiée le ${new Date().toLocaleDateString('fr-FR')}` },
+            ...prev
+          ]);
+        }
         setSelectedSlot(null);
       };
 
@@ -198,6 +257,7 @@
             <button onClick={() => setTab('gemini')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'gemini' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 border border-indigo-200'}`}>🤖 Nouvelle Semaine</button>
           </div>
 
+          {/* Section Planning */}
           {tab === 'planning' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-4">
               <div className="flex justify-between items-center border-b pb-2">
@@ -208,10 +268,10 @@
                 {semaineData.planning.map((p, index) => (
                   <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 rounded-lg border gap-2">
                     <span className="font-bold text-slate-700 w-24 shrink-0">{p.jour}</span>
-                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'midi', oldTitle: p.midi })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
+                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'midi', oldTitle: p.midi, isPreview: false })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
                       <strong>Midi :</strong> {p.midi}
                     </div>
-                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'soir', oldTitle: p.soir })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
+                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'soir', oldTitle: p.soir, isPreview: false })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
                       <strong>Soir :</strong> {p.soir}
                     </div>
                   </div>
@@ -220,6 +280,7 @@
             </section>
           )}
 
+          {/* Section Organisation */}
           {tab === 'organisation' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">⏱️ Déroulé de la Session Batch Cooking (2h30 max)</h2>
@@ -237,6 +298,7 @@
             </section>
           )}
 
+          {/* Section Recettes */}
           {tab === 'recettes' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🍳 Fiches des 4 Recettes de la Semaine</h2>
@@ -255,97 +317,169 @@
             </section>
           )}
 
+          {/* Section Courses avec Checkboxes */}
           {tab === 'courses' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
-              <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🛒 Liste de Courses Générée</h2>
+              <div className="flex justify-between items-center border-b pb-2">
+                <h2 className="text-xl font-semibold text-emerald-600">🛒 Liste de Courses Générée</h2>
+                <span className="text-xs text-slate-500">Cochez les ingrédients achetés</span>
+              </div>
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="bg-emerald-50 p-4 rounded-lg">
                   <h3 className="font-bold text-emerald-800 mb-2">🥦 Légumes & Herbes</h3>
-                  <ul className="text-sm space-y-1 list-disc list-inside">
-                    {semaineData.courses.legumes.map((item, i) => <li key={i}>{item}</li>)}
-                  </ul>
+                  <div className="text-sm space-y-2">
+                    {semaineData.courses.legumes.map((item, i) => (
+                      <label key={i} className="flex items-start gap-2 cursor-pointer select-none">
+                        <input type="checkbox" checked={!!coursesCochees[item]} onChange={() => toggleCourse(item)} className="mt-1 rounded text-emerald-600 focus:ring-emerald-500" />
+                        <span className={coursesCochees[item] ? "line-through text-slate-400" : "text-slate-700"}>{item}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
                 <div className="bg-amber-50 p-4 rounded-lg">
                   <h3 className="font-bold text-amber-800 mb-2">📦 Épicerie</h3>
-                  <ul className="text-sm space-y-1 list-disc list-inside">
-                    {semaineData.courses.epicerie.map((item, i) => <li key={i}>{item}</li>)}
-                  </ul>
+                  <div className="text-sm space-y-2">
+                    {semaineData.courses.epicerie.map((item, i) => (
+                      <label key={i} className="flex items-start gap-2 cursor-pointer select-none">
+                        <input type="checkbox" checked={!!coursesCochees[item]} onChange={() => toggleCourse(item)} className="mt-1 rounded text-amber-600 focus:ring-amber-500" />
+                        <span className={coursesCochees[item] ? "line-through text-slate-400" : "text-slate-700"}>{item}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
                 <div className="bg-rose-50 p-4 rounded-lg">
                   <h3 className="font-bold text-rose-800 mb-2">🥩 Protéines (Nicolas)</h3>
-                  <ul className="text-sm space-y-1 list-disc list-inside">
-                    {semaineData.courses.proteines.map((item, i) => <li key={i}>{item}</li>)}
-                  </ul>
+                  <div className="text-sm space-y-2">
+                    {semaineData.courses.proteines.map((item, i) => (
+                      <label key={i} className="flex items-start gap-2 cursor-pointer select-none">
+                        <input type="checkbox" checked={!!coursesCochees[item]} onChange={() => toggleCourse(item)} className="mt-1 rounded text-rose-600 focus:ring-rose-500" />
+                        <span className={coursesCochees[item] ? "line-through text-slate-400" : "text-slate-700"}>{item}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
             </section>
           )}
 
-          {/* Onglet Historique */}
+          {/* Section Historique Intégral */}
           {tab === 'historique' && (
-            <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
-              <h2 className="text-xl font-semibold text-amber-700 border-b pb-2">📚 Historique des Semaines Générées & Validées</h2>
-              <div className="space-y-4">
+            <section className="bg-white p-6 rounded-xl shadow-md space-y-8">
+              <h2 className="text-xl font-semibold text-amber-700 border-b pb-2">📚 Historique des Semaines (Vue Complète)</h2>
+              <div className="space-y-8">
                 {historique.map((sem, idx) => (
-                  <div key={idx} className="border rounded-xl p-4 bg-amber-50/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-slate-800 text-base">{sem.titre}</h3>
-                        <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium">{sem.saison}</span>
+                  <div key={idx} className="border-2 border-amber-200 rounded-xl p-5 bg-amber-50/20 space-y-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200 pb-3">
+                      <div>
+                        <h3 className="font-bold text-slate-800 text-lg">{sem.titre}</h3>
+                        <span className="text-xs text-slate-500">{sem.dateAjout} — Saison : {sem.saison}</span>
                       </div>
-                      <p className="text-xs text-slate-500">{sem.dateAjout || "Archives"}</p>
-                      <p className="text-xs text-slate-600 italic">Exemple de plats : {sem.planning[0]?.midi} / {sem.planning[1]?.soir}</p>
+                      <button onClick={() => rechargerSemaineHistorique(sem)} className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-lg shadow transition">
+                        🔄 Recharger ce menu complet
+                      </button>
                     </div>
-                    <button onClick={() => rechargerSemaineHistorique(sem)} className="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow transition shrink-0">
-                      🔄 Recharger cette semaine
-                    </button>
+
+                    <!-- Planning complet -->
+                    <div>
+                      <h4 className="font-bold text-xs text-amber-800 uppercase tracking-wider mb-2">📅 Planning de la semaine</h4>
+                      <div className="grid gap-1.5 text-xs">
+                        {sem.planning.map((p, pIdx) => (
+                          <div key={pIdx} className="bg-white p-2 rounded border flex justify-between">
+                            <span className="font-bold text-slate-700 w-20">{p.jour}</span>
+                            <span className="text-slate-600 flex-1"><strong>Midi:</strong> {p.midi} | <strong>Soir:</strong> {p.soir}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <!-- Organisation 2h30 -->
+                    <div>
+                      <h4 className="font-bold text-xs text-amber-800 uppercase tracking-wider mb-2">⏱️ Déroulé d'organisation</h4>
+                      <div className="grid gap-1 text-xs">
+                        {sem.organisation.map((org, oIdx) => (
+                          <div key={oIdx} className="bg-white p-2 rounded border flex gap-2">
+                            <span className="font-bold text-amber-700 shrink-0">{org.temps} :</span>
+                            <span className="text-slate-600"><strong>{org.titre}</strong> - {org.desc}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <!-- Recettes & Courses -->
+                    <div className="grid sm:grid-cols-2 gap-4 text-xs">
+                      <div className="bg-white p-3 rounded border space-y-2">
+                        <h4 className="font-bold text-amber-800 uppercase">🍳 4 Recettes clés</h4>
+                        <ul className="list-disc list-inside space-y-1 text-slate-700">
+                          {sem.recettes.map((rec, rIdx) => (
+                            <li key={rIdx}><strong>{rec.titre}</strong></li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="bg-white p-3 rounded border space-y-2">
+                        <h4 className="font-bold text-amber-800 uppercase">🛒 Aperçu des courses</h4>
+                        <p className="text-slate-600"><strong>Légumes :</strong> {sem.courses.legumes.slice(0, 4).join(', ')}...</p>
+                        <p className="text-slate-600"><strong>Protéines Nico :</strong> {sem.courses.proteines.join(', ')}</p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </section>
           )}
 
+          {/* Section Nouvelle Semaine */}
           {tab === 'gemini' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6 border-2 border-indigo-100">
               <div className="text-center space-y-2">
                 <h2 className="text-xl font-semibold text-indigo-700">🤖 Assistant Gemini — Nouveau Plan de Semaine</h2>
                 <p className="text-sm text-slate-600 max-w-lg mx-auto">
-                  Sélectionnez vos critères pour composer un menu de saison adapté (sans lentilles pour Nicolas, régime PCU pour Loïc).
+                  Personnalisez vos choix de saisons et styles de cuisine avant de générer le planning.
                 </p>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">
+              {/* Sélection Saisons & Styles */}
+              <div className="space-y-4 bg-slate-50 p-4 rounded-xl border">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Saison des produits :</label>
-                  <select value={filtreSaison} onChange={(e) => setFiltreSaison(e.target.value)} className="w-full p-2 border rounded-lg text-sm bg-white">
-                    <option value="Toutes">Toutes les saisons</option>
-                    <option value="Automne">Automne / Hiver</option>
-                    <option value="Hiver">Hiver pur</option>
-                    <option value="Printemps">Printemps</option>
-                  </select>
+                  <label className="block text-xs font-bold text-slate-700 mb-2">1. Saison souhaitée :</label>
+                  <div className="flex flex-wrap gap-2">
+                    {["Toutes", "Printemps", "Été", "Automne", "Hiver"].map((s, idx) => (
+                      <button key={idx} onClick={() => setFiltreSaison(s)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${filtreSaison === s ? 'bg-indigo-600 text-white' : 'bg-white border text-slate-700 hover:bg-slate-100'}`}>
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Style de plat souhaité :</label>
-                  <select value={filtreStyle} onChange={(e) => setFiltreStyle(e.target.value)} className="w-full p-2 border rounded-lg text-sm bg-white">
-                    <option value="Tous">Tous les styles</option>
-                    <option value="Réconfortant">Réconfortant & Mijoté</option>
-                    <option value="Soupes">Veloutés & Poêlées</option>
-                    <option value="Épices">Épices douces & Curry</option>
-                  </select>
+                  <label className="block text-xs font-bold text-slate-700 mb-2">2. Styles de plats (choix multiples) :</label>
+                  <div className="grid sm:grid-cols-3 gap-2">
+                    {stylesDisponibles.map((style, idx) => (
+                      <label key={idx} className="flex items-center gap-2 text-xs bg-white p-2 rounded border cursor-pointer hover:bg-indigo-50/50">
+                        <input type="checkbox" checked={selectedStyles.includes(style)} onChange={() => toggleStyleFilter(style)} className="rounded text-indigo-600 focus:ring-indigo-500" />
+                        <span className="text-slate-700 font-medium">{style}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
 
+              {/* Prévisualisation complète et éditable */}
               <div className="border border-indigo-200 rounded-xl p-4 bg-indigo-50/30 space-y-3">
                 <div className="flex justify-between items-center">
                   <h3 className="font-bold text-indigo-900 text-base">📌 Proposition : {propositionSemaine.titre}</h3>
                   <span className="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-semibold">{propositionSemaine.saison}</span>
                 </div>
-                <p className="text-xs text-slate-500">Aperçu du menu généré :</p>
+                <p className="text-xs text-slate-500">Cliquez sur un repas ci-dessous pour le remplacer avant validation :</p>
                 <div className="grid gap-2 text-xs">
-                  {propositionSemaine.planning.slice(0, 3).map((p, idx) => (
-                    <div key={idx} className="bg-white p-2 rounded border flex justify-between">
-                      <span className="font-bold text-slate-700">{p.jour}</span>
-                      <span className="text-slate-600">Midi: {p.midi} | Soir: {p.soir}</span>
+                  {propositionSemaine.planning.map((p, idx) => (
+                    <div key={idx} className="bg-white p-2 rounded border flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <span className="font-bold text-slate-700 w-20">{p.jour}</span>
+                      <div onClick={() => setSelectedSlot({ dayIndex: idx, type: 'midi', oldTitle: p.midi, isPreview: true })} className="cursor-pointer hover:bg-indigo-50 p-1 rounded flex-1 border border-transparent hover:border-indigo-200">
+                        <strong>Midi:</strong> {p.midi}
+                      </div>
+                      <div onClick={() => setSelectedSlot({ dayIndex: idx, type: 'soir', oldTitle: p.soir, isPreview: true })} className="cursor-pointer hover:bg-indigo-50 p-1 rounded flex-1 border border-transparent hover:border-indigo-200">
+                        <strong>Soir:</strong> {p.soir}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -359,12 +493,13 @@
             </section>
           )}
 
+          {/* Modale de remplacement */}
           {selectedSlot && (
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
               <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
-                <h3 className="text-lg font-bold text-slate-800">🔄 Remplacer cette recette</h3>
+                <h3 className="text-lg font-bold text-slate-800">🔄 Remplacer la recette</h3>
                 <p className="text-sm text-slate-600">
-                  Modifier le repas du <strong>{semaineData.planning[selectedSlot.dayIndex]?.jour} ({selectedSlot.type})</strong> :
+                  Modifier le repas du <strong>{ (selectedSlot.isPreview ? propositionSemaine : semaineData).planning[selectedSlot.dayIndex]?.jour } ({selectedSlot.type})</strong> :
                 </p>
                 <div className="p-3 bg-slate-100 rounded-lg text-xs text-slate-500 line-through">{selectedSlot.oldTitle}</div>
                 <div className="space-y-1">
