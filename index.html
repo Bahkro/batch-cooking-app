@@ -15,7 +15,6 @@
   </div>
 
   <script type="text/babel">
-    // Base de données complète de semaines (Planning, Organisation 2h30, Courses, 4 Fiches Recettes)
     const databaseSemaines = [
       {
         id: "semaine-automne-racines",
@@ -122,16 +121,13 @@
       const [tab, setTab] = React.useState('planning');
       const [semaineData, setSemaineData] = React.useState(databaseSemaines[0]);
       
-      // États pour le générateur de nouvelle semaine
       const [filtreSaison, setFiltreSaison] = React.useState('Toutes');
       const [filtreStyle, setFiltreStyle] = React.useState('Tous');
       const [propositionSemaine, setPropositionSemaine] = React.useState(databaseSemaines[1]);
 
-      // État pour la modification d'un plat unique
       const [selectedSlot, setSelectedSlot] = React.useState(null);
       const [newRecipeChoice, setNewRecipeChoice] = React.useState(propositionsRemplacement[0].nom);
 
-      // Met à jour la prévisualisation quand les filtres changent
       React.useEffect(() => {
         const trouvee = databaseSemaines.find(s => 
           (filtreSaison === 'Toutes' || s.saison.includes(filtreSaison)) &&
@@ -165,7 +161,6 @@
             </div>
           </header>
 
-          <!-- Barre de Navigation -->
           <div className="flex flex-wrap justify-center gap-2 border-b pb-4">
             <button onClick={() => setTab('planning')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'planning' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>📅 Planning</button>
             <button onClick={() => setTab('organisation')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'organisation' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>⏱️ Organisation (2h30)</button>
@@ -174,7 +169,6 @@
             <button onClick={() => setTab('gemini')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'gemini' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 border border-indigo-200'}`}>🤖 Nouvelle Semaine</button>
           </div>
 
-          <!-- Section Planning -->
           {tab === 'planning' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-4">
               <div className="flex justify-between items-center border-b pb-2">
@@ -197,7 +191,6 @@
             </section>
           )}
 
-          <!-- Section Organisation 2h30 -->
           {tab === 'organisation' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">⏱️ Déroulé de la Session Batch Cooking (2h30 max)</h2>
@@ -215,7 +208,6 @@
             </section>
           )}
 
-          <!-- Section Recettes Détaillées -->
           {tab === 'recettes' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🍳 Fiches des 4 Recettes de la Semaine</h2>
@@ -234,7 +226,6 @@
             </section>
           )}
 
-          <!-- Section Liste de Courses -->
           {tab === 'courses' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
               <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">🛒 Liste de Courses Générée</h2>
@@ -261,7 +252,6 @@
             </section>
           )}
 
-          <!-- Section Générateur avec Filtres & Prévisualisation -->
           {tab === 'gemini' && (
             <section className="bg-white p-6 rounded-xl shadow-md space-y-6 border-2 border-indigo-100">
               <div className="text-center space-y-2">
@@ -271,7 +261,6 @@
                 </p>
               </div>
 
-              <!-- Choix des options -->
               <div className="grid sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">Saison des produits :</label>
@@ -293,7 +282,6 @@
                 </div>
               </div>
 
-              <!-- Prévisualisation avant validation -->
               <div className="border border-indigo-200 rounded-xl p-4 bg-indigo-50/30 space-y-3">
                 <div className="flex justify-between items-center">
                   <h3 className="font-bold text-indigo-900 text-base">📌 Proposition : {propositionSemaine.titre}</h3>
@@ -318,7 +306,6 @@
             </section>
           )}
 
-          <!-- Modale de changement d'un seul plat avec confirmation -->
           {selectedSlot && (
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
               <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
@@ -337,7 +324,7 @@
                 </div>
                 <div className="flex justify-end gap-2 pt-2">
                   <button onClick={() => setSelectedSlot(null)} className="px-4 py-2 rounded-lg text-slate-600 text-sm hover:bg-slate-100">Annuler</button>
-                  <button onClick={confirmsRemplacement} className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 shadow">Confirmer le changement</button>
+                  <button onClick={confirmerRemplacement} className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 shadow">Confirmer le changement</button>
                 </div>
               </div>
             </div>
