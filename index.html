@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Batch Cooking - Application Web</title>
-  <!-- Chargement des dépendances via CDNJS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
@@ -18,6 +17,7 @@
   <script type="text/babel">
     const databaseSemaines = [
       {
+        titre: "Semaine 1 — Menu de Saison",
         planning: [
           { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
           { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
@@ -30,11 +30,43 @@
           epicerie: ["Riz Arborio (Nico) / PCU (Loïc)", "Riz classique (Nico) / PCU (Loïc)", "Concentré de tomate", "Cumin, Sésame, Huile d'olive"],
           proteines: ["Paupiettes (Nico) : 2 à 4 pcs", "Viande hachée / Thon (Nico) : 250 g", "Parmesan râpé"]
         },
+        organisation: [
+          { temps: "0 - 20 min", titre: "Découpes & Four", desc: "Tailler chou-fleur et carottes. Enfourner la poêlée rôtie au four à 200°C pendant 25 min." },
+          { temps: "20 - 50 min", titre: "Les Casseroles", desc: "Lancer la daube douce dans la grande sauteuse (oignons, navets, carottes, bouillon). Lancer la purée pour le Hachis." },
+          { temps: "50 - 1h20", titre: "Assemblage Hachis & Risotto", desc: "Montez le hachis parmentier (ajouter viande pour Nicolas). Lancer la base du risotto aux carottes." },
+          { temps: "1h20 - 2h00", titre: "Cuisson des Viandes & Pâtes", desc: "Poêler les paupiettes et la viande hachée de Nicolas à part. Cuire les riz/substituts PCU." },
+          { temps: "2h00 - 2h30", titre: "Mise en Boîtes", desc: "Répartir les préparations dans les boîtes hermétiques et laisser refroidir avant de réfrigérer." }
+        ],
         recettes: [
           { titre: "Risotto de carottes au cumin", pas: "Faites rôtir des dés de carottes au cumin. Lancez la base de risotto. Incorporez les carottes et le persil.", nico: "Ajouter du parmesan et une paupiette poêlée.", loic: "Utiliser exclusivement le substitut de riz PCU." },
           { titre: "Daube douce de navets & carottes", pas: "Faites revenir oignons, navets et carottes. Ajoutez le concentré de tomate, le thym, l'ail et mouillez au bouillon.", nico: "Peut se déguster avec une portion de paupiette.", loic: "Nature ou avec supplément de pommes de terre." },
           { titre: "Hachis Parmentier aux légumes", pas: "Faites revenir champignons et carottes. Préparez une purée de pommes de terre. Étalez légumes + purée.", nico: "Ajouter de la viande hachée/thon au fond et gratiner au parmesan.", loic: "Garder la portion 100% légumes et purée sans protéines." },
           { titre: "Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur et les carottes. Enfournez à 200°C pendant 25 min avec de l'huile d'olive.", nico: "Servir avec du riz classique et de la viande.", loic: "Servir avec du substitut de riz PCU." }
+        ]
+      },
+      {
+        titre: "Semaine 2 — Menu Hiver & Veloutés",
+        planning: [
+          { jour: "Lundi", midi: "🥢 Wok de Chou Chinois & Carottes (Riz / PCU)", soir: "🥣 Velouté Panais & Céleri-rave" },
+          { jour: "Mardi", midi: "🥔 Hachis Parmentier Légumes & Champignons", soir: "🥧 Gratin de Pâtes aux Poireaux & Crème" },
+          { jour: "Mercredi", midi: "🍄 Risotto aux Champignons & Épinards", soir: "🥢 Wok de Chou Chinois & Carottes (Reste)" },
+          { jour: "Jeudi", midi: "🥣 Velouté Panais & Céleri-rave (Reste)", soir: "🥔 Hachis Parmentier (Reste)" },
+          { jour: "Vendredi", midi: "🥧 Gratin de Pâtes aux Poireaux (Reste)", soir: "🍄 Risotto aux Champignons (Reste)" }
+        ],
+        courses: {
+          legumes: ["Chou chinois : 1 pc", "Panais : 800g", "Céleri-rave : 1/2", "Poireaux : 1kg", "Épinards : 300g", "Champignons : 400g"],
+          epicerie: ["Pâtes classiques / PCU", "Riz / Substitut PCU", "Crème végétale", "Huile de sésame, Sauce soja"],
+          proteines: ["Poulet émincé (Nico) : 300g", "Fromage râpé (Nico)"]
+        },
+        organisation: [
+          { temps: "0 - 30 min", titre: "Découpes & Velouté", desc: "Couper panais, céleri et poireaux. Lancer le velouté panais/céleri en casserole." },
+          { temps: "30 - 1h10", titre: "Gratin & Risotto", desc: "Préparer la fondue de poireaux pour le gratin. Lancer le risotto champignons/épinards." },
+          { temps: "1h10 - 1h50", titre: "Wok & Cuisson Nico", desc: "Sauter le chou chinois et carottes au wok. Poêler l'émincé de poulet de Nicolas." },
+          { temps: "1h50 - 2h30", titre: "Assemblage & Conditionnement", desc: "Mixer le velouté, répartir les gratins et fermer les boîtes." }
+        ],
+        recettes: [
+          { titre: "Wok de chou chinois & carottes", pas: "Emincez le chou et les carottes. Saisissez à feu vif au wok avec huile de sésame et ail.", nico: "Ajouter du poulet émincé poêlé.", loic: "Accompagner de féculents PCU." },
+          { titre: "Velouté panais & céleri-rave", pas: "Cuire les dés de panais et céleri dans un bouillon. Mixez avec de la crème végétale.", nico: "Ajouter des croûtons et du fromage.", loic: "Consommer nature." }
         ]
       }
     ];
@@ -47,9 +79,16 @@
 
     function App() {
       const [tab, setTab] = React.useState('planning');
+      const [currentIndex, setCurrentIndex] = React.useState(0);
       const [semaineData, setSemaineData] = React.useState(databaseSemaines[0]);
       const [selectedSlot, setSelectedSlot] = React.useState(null);
       const [newRecipeChoice, setNewRecipeChoice] = React.useState(propositionsRemplacement[0].nom);
+
+      const changerSemaine = () => {
+        const nextIndex = (currentIndex + 1) % databaseSemaines.length;
+        setCurrentIndex(nextIndex);
+        setSemaineData(databaseSemaines[nextIndex]);
+      };
 
       const confirmerRemplacement = () => {
         if (!selectedSlot) return;
@@ -64,12 +103,15 @@
           <header className="text-center my-6">
             <h1 className="text-3xl font-bold text-emerald-700">🥘 Batch Cooking - Application Web</h1>
             <p className="text-slate-600">Adapté pour Nicolas (Sans lentilles) & Loïc (Régime PCU)</p>
+            <p className="text-xs font-semibold text-emerald-800 mt-1">{semaineData.titre}</p>
           </header>
 
           <div className="flex flex-wrap justify-center gap-2 border-b pb-4">
             <button onClick={() => setTab('planning')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'planning' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>📅 Planning</button>
-            <button onClick={() => setTab('recettes')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'recettes' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🍳 Recettes Détaillées</button>
+            <button onClick={() => setTab('organisation')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'organisation' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>⏱️ Organisation (2h30)</button>
+            <button onClick={() => setTab('recettes')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'recettes' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🍳 Recettes</button>
             <button onClick={() => setTab('courses')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'courses' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border'}`}>🛒 Courses</button>
+            <button onClick={() => setTab('gemini')} className={`px-4 py-2 rounded-lg font-medium transition ${tab === 'gemini' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 border border-indigo-200'}`}>🤖 Nouvelle Semaine</button>
           </div>
 
           {tab === 'planning' && (
@@ -84,6 +126,23 @@
                     </div>
                     <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'soir', oldTitle: p.soir })} className="text-sm cursor-pointer hover:bg-emerald-50 p-1.5 rounded transition flex-1 border border-transparent hover:border-emerald-200">
                       <strong>Soir :</strong> {p.soir}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {tab === 'organisation' && (
+            <section className="bg-white p-6 rounded-xl shadow-md space-y-6">
+              <h2 className="text-xl font-semibold text-emerald-600 border-b pb-2">⏱️ Déroulé de la Session Batch Cooking (2h30 max)</h2>
+              <div className="space-y-4">
+                {semaineData.organisation.map((item, i) => (
+                  <div key={i} className="flex gap-4 p-4 bg-slate-50 rounded-xl border">
+                    <span className="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-lg text-xs self-start shrink-0">{item.temps}</span>
+                    <div>
+                      <h3 className="font-bold text-slate-800 text-sm">{item.titre}</h3>
+                      <p className="text-sm text-slate-600 mt-1">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -132,6 +191,18 @@
                   </ul>
                 </div>
               </div>
+            </section>
+          )}
+
+          {tab === 'gemini' && (
+            <section className="bg-white p-6 rounded-xl shadow-md space-y-6 border-2 border-indigo-100 text-center">
+              <h2 className="text-xl font-semibold text-indigo-700">🤖 Assistant de Génération de Semaines</h2>
+              <p className="text-sm text-slate-600 max-w-lg mx-auto">
+                Générez un nouveau menu de batch cooking pré-calculé respectant vos contraintes (sans lentilles pour Nicolas et régime PCU pour Loïc).
+              </p>
+              <button onClick={changerSemaine} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition active:scale-95">
+                🔄 Charger une nouvelle semaine de recettes
+              </button>
             </section>
           )}
 
