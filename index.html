@@ -174,7 +174,7 @@
         proteines: ["Mozzarella / Féta (Nico) : 200 g"]
       },
       {
-        titre: "Poêlée croquante brocolis & patates douces au Airfryer",
+        titre: "Poêlée croquante brocolis & patates douces",
         mois: ["Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"],
         style: "Wok & Poêlées",
         mode: "Airfryer",
@@ -198,7 +198,7 @@
         proteines: ["Émincé de dinde (Nico) : 400 g"]
       },
       {
-        titre: "Frites de panais & carottes rôties",
+        titre: "Frites de panais & carottes croustillantes",
         mois: ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars"],
         style: "Wok & Poêlées",
         mode: "Friteuse",
@@ -208,10 +208,34 @@
         legumes: ["Panais : 1,2 kg", "Carottes : 1,2 kg"],
         epicerie: ["Huile de friture", "Herbes de Provence"],
         proteines: ["Burger de boeuf (Nico) : 4 pcs"]
+      },
+      {
+        titre: "Carottes râpées & radis au citron",
+        mois: ["Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre"],
+        style: "Salades & Fraîcheur",
+        mode: "Sans cuisson",
+        pas: "Râper finement les carottes et trancher les radis. Assaisonner d'un filet de citron, d'huile d'olive et de persil frais.",
+        nico: "Servir avec du blanc de poulet rôti.",
+        loic: "Accompagner de galettes de riz PCU.",
+        legumes: ["Carottes : 1 kg", "Radis : 1 botte", "Citron, Persil"],
+        epicerie: ["Huile d'olive", "Galettes de riz PCU"],
+        proteines: ["Blanc de poulet (Nico) : 300 g"]
+      },
+      {
+        titre: "Purée vapeur de potimarron & châtaignes autorisées",
+        mois: ["Octobre", "Novembre", "Décembre", "Janvier"],
+        style: "Soupes & Veloutés",
+        mode: "Vapeur",
+        pas: "Cuire les tranches de potimarron à la vapeur pendant 20 min puis écraser grossièrement avec une touche de muscade.",
+        nico: "Ajouter du beurre et servir avec une pièce de boeuf poêlée.",
+        loic: "Déguster nature avec assaisonnement autorisé.",
+        legumes: ["Potimarron : 1,5 kg", "Muscade"],
+        epicerie: ["Huile d'olive", "Sel, Poivre"],
+        proteines: ["Pièce de bœuf (Nico) : 4 pcs"]
       }
     ];
 
-    // Semaines initiales historiques (mises à jour avec des mois)
+    // Semaines initiales historiques
     const databaseSemaines = [
       {
         id: "semaine-automne-racines",
@@ -243,64 +267,51 @@
           { titre: "3. Hachis Parmentier aux légumes", pas: "Faites revenir les champignons. Préparez une purée de pommes de terre lisse. Éparpillez légumes puis couvrez de purée.", nico: "Ajouter de la viande hachée au fond du plat et gratiner.", loic: "Conserver la version 100% légumes et purée (sans protéine)." },
           { titre: "4. Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur en fleurettes et carottes en rondelles. Cuisez avec huile d'olive et sésame.", nico: "Servir accompagné de riz classique et d'une paupiette.", loic: "Servir accompagné du substitut de riz/pâtes PCU." }
         ]
-      },
-      {
-        id: "semaine-hiver-veloutes",
-        titre: "❄️ Janvier — Veloutés & Wok Gourmand",
-        mois: "Janvier",
-        styles: ["Soupes & Veloutés", "Wok & Poêlées", "Gratins & Tartes"],
-        planning: [
-          { jour: "Lundi", midi: "🥢 Wok de chou chinois & carottes au sésame", soir: "🥣 Velouté doux de panais & céleri-rave" },
-          { jour: "Mardi", midi: "🥔 Gratin de pommes de terre & courges rôties", soir: "🥧 Tarte fine aux poireaux & pommes" },
-          { jour: "Mercredi", midi: "🥣 Velouté doux de panais & céleri-rave (Reste)", soir: "🥢 Wok de chou chinois & carottes au sésame (Reste)" },
-          { jour: "Jeudi", midi: "🥧 Tarte fine aux poireaux & pommes (Reste)", soir: "🥔 Gratin de pommes de terre & courges rôties (Reste)" },
-          { jour: "Vendredi", midi: "🥢 Wok de chou chinois & carottes (+ Poulet Nico)", soir: "🥣 Velouté doux de panais & céleri-rave (Reste)" }
-        ],
-        courses: {
-          legumes: ["Chou chinois : 1 pc", "Panais : 1 kg", "Céleri-rave : 1/2", "Poireaux : 1,2 kg", "Courge : 1 kg", "Pommes de terre : 1,5 kg", "Pommes : 3 pcs"],
-          epicerie: ["Pâtes classiques / PCU", "Riz / PCU", "Crème végétale", "Sauce soja, Pâte à tarte autorisée"],
-          proteines: ["Émincé de poulet (Nico) : 400g", "Fromage râpé (Nico) : 150g"]
-        },
-        organisation: [
-          { temps: "0 - 30 min", titre: "Découpes & Velouté", desc: "Couper panais, céleri, poireaux et courge. Mettre à cuire le panais et céleri au bouillon." },
-          { temps: "30 - 1h10", titre: "Gratin & Tarte", desc: "Trancher pommes de terre et courge. Préparer la fondue de poireaux et dresser la tarte fine." },
-          { temps: "1h10 - 1h50", titre: "Cuisson Wok & Poulet Nico", desc: "Saisir au wok chou chinois et carottes. Poêler le poulet de Nicolas séparément." },
-          { temps: "1h50 - 2h30", titre: "Mixage & Conditionnement", desc: "Mixer le velouté de panais. Refroidir et répartir dans les boîtes hermétiques." }
-        ],
-        recettes: [
-          { titre: "1. Wok de chou chinois & carottes", pas: "Saisissez au wok le chou chinois et les carottes avec huile de sésame et sauce soja 10 min.", nico: "Mélanger avec des morceaux de poulet émincé poêlés.", loic: "Servir avec une portion de riz ou pâtes PCU." },
-          { titre: "2. Velouté doux de panais & céleri-rave", pas: "Faites cuire dés de panais et céleri dans bouillon. Mixez finement avec une touche de crème végétale.", nico: "Ajouter des croûtons dorés et du fromage râpé.", loic: "Consommer tel quel (très faible apport en protéines)." },
-          { titre: "3. Gratin de pommes de terre & courges rôties", pas: "Tranchez les légumes en rondelles. Disposez en couches dans un plat, arrosez de bouillon.", nico: "Ajouter du fromage râpé sur le dessus et gratiner.", loic: "Cuire sans fromage pour respecter le régime strict." },
-          { titre: "4. Tarte fine aux poireaux & pommes", pas: "Faites tomber poireaux à la poêle. Étalez sur la pâte, disposez tranches de pommes et enfournez 25 min.", nico: "Peut s'accompagner d'une salade et de bacon rôti.", loic: "Utiliser une pâte spécifique autorisée." }
-        ]
       }
     ];
 
-    // Moteur de génération dynamique de menus selon TOUS les paramètres
+    // Moteur de génération dynamique avec filtrage EXCLUSIF des modes de préparation
     function genererMenuDynamique(moisChoisi, stylesChoisis, modesChoisis) {
+      const matchModeStrict = (r) => {
+        if (modesChoisis.length === 0) return true;
+        return modesChoisis.includes(r.mode);
+      };
+
+      // 1. Filtrage strict (Mois + Style + Mode)
       let pool = banqueRecettes.filter(r => {
         const matchMois = (moisChoisi === "Tous" || r.mois.includes(moisChoisi));
         const matchStyle = (stylesChoisis.length === 0 || stylesChoisis.includes(r.style));
-        const matchMode = (modesChoisis.length === 0 || modesChoisis.includes(r.mode));
-        return matchMois && matchStyle && matchMode;
+        return matchMois && matchStyle && matchModeStrict(r);
       });
 
-      // Si le filtre est trop strict, on élargit progressivement pour garantir 4 recettes
-      if (pool.length < 4 && modesChoisis.length > 0) {
+      // 2. Si moins de 4 recettes, on assouplit d'abord le style (MAIS ON GARDE LE MODE STRICT)
+      if (pool.length < 4 && stylesChoisis.length > 0) {
         pool = banqueRecettes.filter(r => {
           const matchMois = (moisChoisi === "Tous" || r.mois.includes(moisChoisi));
-          const matchStyle = (stylesChoisis.length === 0 || stylesChoisis.includes(r.style));
-          return matchMois && matchStyle;
+          return matchMois && matchModeStrict(r);
         });
       }
 
-      if (pool.length < 4) {
-        pool = [...banqueRecettes];
+      // 3. Si toujours moins de 4 recettes, on assouplit le mois (MAIS ON GARDE LE MODE STRICT)
+      if (pool.length < 4 && moisChoisi !== "Tous") {
+        pool = banqueRecettes.filter(r => matchModeStrict(r));
+      }
+
+      // Fallback absolu si aucune recette n'existe pour un mode précis (ne devrait pas arriver)
+      if (pool.length === 0) {
+        pool = banqueRecettes.filter(r => matchModeStrict(r));
+        if (pool.length === 0) pool = [...banqueRecettes];
       }
 
       // Mélange aléatoire
       const melange = [...pool].sort(() => 0.5 - Math.random());
-      const recs = melange.slice(0, 4);
+      
+      // Duplication si le pool qualifié contient moins de 4 recettes distinctes
+      let recs = [];
+      while (recs.length < 4) {
+        recs = recs.concat(melange);
+      }
+      recs = recs.slice(0, 4);
 
       // Construction des ingrédients combinés
       const legumesSet = new Set();
@@ -317,9 +328,9 @@
 
       return {
         id: `gen-${Date.now()}`,
-        titre: `✨ ${nomMoisLabel} — Menu Personnalisé (${recs[0].titre.split(' ')[0]} & ${recs[1].titre.split(' ')[0]})`,
+        titre: `✨ ${nomMoisLabel} — Menu (${recs[0].titre.split(' ')[0]} & ${recs[1].titre.split(' ')[0]})`,
         mois: nomMoisLabel,
-        styles: stylesChoisis.length > 0 ? stylesChoisis : ["Varié & Équilibré"],
+        styles: stylesChoisis.length > 0 ? stylesChoisis : ["Varié"],
         planning: [
           { jour: "Lundi", midi: `1. ${recs[0].titre}`, soir: `2. ${recs[1].titre}` },
           { jour: "Mardi", midi: `3. ${recs[2].titre}`, soir: `4. ${recs[3].titre}` },
@@ -334,14 +345,14 @@
         },
         organisation: [
           { temps: "0 - 30 min", titre: "Découpes & Préparations des légumes", desc: `Préparer les légumes pour "${recs[0].titre}" et "${recs[1].titre}".` },
-          { temps: "30 - 1h10", titre: "Mises en cuisson (Four/Mijoteuse/Airfryer)", desc: `Lancer la cuisson de "${recs[1].titre}" et la base de "${recs[2].titre}".` },
-          { temps: "1h10 - 1h50", titre: "Poêlées, Sauteuses & Vapeur", desc: `Cuire "${recs[0].titre}" et assembler "${recs[3].titre}".` },
+          { temps: "30 - 1h10", titre: "Mises en cuisson (Modes sélectionnés)", desc: `Lancer la cuisson de "${recs[1].titre}" et la base de "${recs[2].titre}".` },
+          { temps: "1h10 - 1h50", titre: "Finalisations & Assemblages", desc: `Cuire "${recs[0].titre}" et assembler "${recs[3].titre}".` },
           { temps: "1h50 - 2h10", titre: "Protéines Nicolas & Féculents PCU Loïc", desc: "Poêler les viandes/poissons de Nicolas. Cuire les féculents PCU spécifiques." },
           { temps: "2h10 - 2h30", titre: "Mise en boîtes & Refroidissement", desc: "Conditionner les 4 préparations séparément au frais." }
         ],
         recettes: recs.map((r, idx) => ({
           titre: `${idx + 1}. ${r.titre}`,
-          pas: r.pas,
+          pas: `${r.pas} [Mode : ${r.mode}]`,
           nico: r.nico,
           loic: r.loic
         }))
@@ -435,6 +446,12 @@
         }
         setSelectedSlot(null);
       };
+
+      // Filtrer les options de remplacement selon les modes cochés
+      const recettesModalDisponibles = React.useMemo(() => {
+        if (modesCoches.length === 0) return banqueRecettes;
+        return banqueRecettes.filter(r => modesCoches.includes(r.mode));
+      }, [modesCoches]);
 
       return (
         <div className="max-w-4xl mx-auto p-4 space-y-6 font-sans">
@@ -604,14 +621,14 @@
             </section>
           )}
 
-          {/* Nouvelle Semaine - MOTEUR DYNAMIQUE MULTI-CRITÈRES */}
+          {/* Nouvelle Semaine - FILTRAGE STRICT DES MODES */}
           {tab === 'gemini' && (
             <section className="bg-white p-6 rounded-2xl shadow-md border-2 border-orange-200 space-y-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-bl-lg">Générateur Dynamique</div>
               <div className="text-center space-y-2">
                 <h2 className="text-2xl font-bold text-orange-700 border-b border-orange-100 pb-2">✨ Créer un nouveau plan de semaine</h2>
                 <p className="text-sm text-slate-600 max-w-lg mx-auto pt-2">
-                  Sélectionnez vos critères (mois, styles, modes). Le système génère automatiquement une nouvelle combinaison de recettes adaptée !
+                  Sélectionnez vos critères. Les modes de préparation cochés sont <strong>strictement respectés</strong>.
                 </p>
               </div>
 
@@ -640,7 +657,7 @@
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-amber-900 mb-2">3. Modes de préparation à privilégier :</label>
+                  <label className="block text-sm font-bold text-amber-900 mb-2">3. Modes de préparation autorisés (exclusif) :</label>
                   <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
                     {modesPreparationDisponibles.map((mode, idx) => (
                       <label key={idx} className="flex items-center gap-2 text-sm bg-white p-2.5 rounded-lg border border-orange-200 cursor-pointer hover:border-orange-400 shadow-sm transition">
@@ -697,13 +714,13 @@
                 
                 <div className="p-3 bg-orange-50 rounded-xl text-sm text-slate-500 line-through mb-4 border border-orange-100">{selectedSlot.oldTitle}</div>
                 
-                <label className="text-sm font-bold text-slate-700 block mb-2">Nouvelle recette proposée :</label>
+                <label className="text-sm font-bold text-slate-700 block mb-2">Nouvelle recette proposée (filtrée selon vos critères) :</label>
                 <select 
                   value={newRecipeChoice} 
                   onChange={e => setNewRecipeChoice(e.target.value)}
                   className="w-full p-3 border border-orange-200 rounded-xl mb-6 bg-white text-slate-800 focus:ring-orange-500 font-medium text-sm"
                 >
-                  {banqueRecettes.map((p, i) => (
+                  {recettesModalDisponibles.map((p, i) => (
                     <option key={i} value={p.titre}>{p.titre} ({p.mode})</option>
                   ))}
                 </select>
