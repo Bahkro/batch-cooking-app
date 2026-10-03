@@ -15,130 +15,9 @@
   </div>
 
   <script type="text/babel">
-    const databaseSemaines = [
-      {
-        id: "semaine-automne-racines",
-        titre: "🍂 Automne — Légumes Racines & Douceur",
-        saison: "Automne",
-        styles: ["Réconfortant & Mijoté", "Gratins & Tartes"],
-        planning: [
-          { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
-          { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
-          { jour: "Mercredi", midi: "🍲 Daube douce de navets, carottes & patates (Reste)", soir: "🥕 Risotto de carottes au cumin (Reste)" },
-          { jour: "Jeudi", midi: "🥔 Hachis parmentier aux légumes & champignons (Reste)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame (Reste)" },
-          { jour: "Vendredi", midi: "🥦 Poêlée rôtie de chou-fleur & carottes (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates (Reste)" }
-        ],
-        courses: {
-          legumes: ["Pommes de terre : 2,3 kg", "Carottes : 2,5 kg", "Navets : 1 kg", "Chou-fleur : 1,2 kg", "Champignons : 250 g", "Ail, Oignons, Persil, Thym"],
-          epicerie: ["Riz Arborio (Nico) / PCU (Loïc)", "Riz classique (Nico) / PCU (Loïc)", "Concentré de tomate", "Cumin, Sésame, Huile d'olive"],
-          proteines: ["Paupiettes (Nico) : 2 à 4 pcs", "Viande hachée / Thon (Nico) : 250 g", "Parmesan râpé"]
-        },
-        organisation: [
-          { temps: "0 - 20 min", titre: "Découpes & Four", desc: "Tailler le chou-fleur et 1 kg de carottes. Enfourner la poêlée rôtie à 200°C pendant 25 min avec huile d'olive et sésame." },
-          { temps: "20 - 50 min", titre: "Les Casseroles", desc: "Lancer la daube douce (oignons, navets, carottes, concentré de tomate et bouillon). Lancer la cuisson des pommes de terre pour la purée." },
-          { temps: "50 - 1h20", titre: "Assemblage Hachis & Risotto", desc: "Écraser la purée, faire revenir les champignons. Monter le hachis parmentier. Lancer la base de risotto aux carottes râpées." },
-          { temps: "1h20 - 2h00", titre: "Cuisson Protéines & Féculents PCU", desc: "Poêler les paupiettes et la viande hachée de Nicolas à part. Cuire le riz classique et les féculents spécifiquement adaptés pour Loïc." },
-          { temps: "2h00 - 2h30", titre: "Conditionnement", desc: "Répartir l'ensemble des plats dans les boîtes hermétiques pour la semaine et laisser refroidir." }
-        ],
-        recettes: [
-          { titre: "1. Risotto de carottes au cumin", pas: "Faites rôtir des dés de carottes au cumin. Lancez la base de risotto avec l'oignon et le bouillon. Incorporez les carottes et le persil en fin de cuisson.", nico: "Ajouter du parmesan râpé et servir avec une paupiette poêlée.", loic: "Utiliser exclusivement le substitut de riz spécial PCU." },
-          { titre: "2. Daube douce de navets & carottes", pas: "Faites revenir oignons, navets et carottes. Ajoutez le concentré de tomate, le thym, l'ail et mouillez au bouillon. Laissez mijoter à feu doux 40 min.", nico: "Accompagner d'une portion de paupiette ou viande de votre choix.", loic: "Déguster nature ou avec un supplément de pommes de terre vapeur." },
-          { titre: "3. Hachis Parmentier aux légumes", pas: "Faites revenir les champignons avec l'ail. Préparez une purée de pommes de terre bien lisse. Éparpillez les légumes puis couvrez de purée.", nico: "Ajouter de la viande hachée ou du thon au fond du plat et gratiner au parmesan.", loic: "Conserver la version 100% légumes et purée (sans aucune protéine)." },
-          { titre: "4. Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur en fleurettes et les carottes en rondelles. Enfournez à 200°C pendant 25 min avec de l'huile d'olive et des graines de sésame.", nico: "Servir accompagné de riz classique et d'une paupiette.", loic: "Servir accompagné du substitut de riz/pâtes PCU." }
-        ]
-      },
-      {
-        id: "semaine-hiver-veloutes",
-        titre: "❄️ Hiver — Veloutés & Wok Gourmand",
-        saison: "Hiver",
-        styles: ["Soupes & Veloutés", "Wok & Poêlées", "Gratins & Tartes"],
-        planning: [
-          { jour: "Lundi", midi: "🥢 Wok de chou chinois & carottes au sésame", soir: "🥣 Velouté doux de panais & céleri-rave" },
-          { jour: "Mardi", midi: "🥔 Gratin de pommes de terre & courges rôties", soir: "🥧 Tarte fine aux poireaux & pommes" },
-          { jour: "Mercredi", midi: "🥣 Velouté doux de panais & céleri-rave (Reste)", soir: "🥢 Wok de chou chinois & carottes au sésame (Reste)" },
-          { jour: "Jeudi", midi: "🥧 Tarte fine aux poireaux & pommes (Reste)", soir: "🥔 Gratin de pommes de terre & courges rôties (Reste)" },
-          { jour: "Vendredi", midi: "🥢 Wok de chou chinois & carottes (+ Poulet Nico)", soir: "🥣 Velouté doux de panais & céleri-rave (Reste)" }
-        ],
-        courses: {
-          legumes: ["Chou chinois : 1 pc", "Panais : 1 kg", "Céleri-rave : 1/2", "Poireaux : 1,2 kg", "Courge butternut : 1 kg", "Pommes de terre : 1,5 kg", "Pommes : 3 pcs"],
-          epicerie: ["Pâtes classiques / PCU", "Riz / PCU", "Crème végétale", "Huile de sésame, Sauce soja, Pâte à tarte sans protéine"],
-          proteines: ["Émincé de poulet (Nico) : 400g", "Fromage râpé (Nico) : 150g"]
-        },
-        organisation: [
-          { temps: "0 - 30 min", titre: "Découpes & Velouté", desc: "Couper panais, céleri, poireaux et butternut. Mettre à cuire le panais et le céleri dans un grand faitout d'eau bouillonnante avec un cube de bouillon." },
-          { temps: "30 - 1h10", titre: "Gratin & Tarte", desc: "Trancher les pommes de terre et la courge, les disposer en gratin. Préparer la fondue de poireaux et dresser la tarte fine avec les lamelles de pommes." },
-          { temps: "1h10 - 1h50", titre: "Cuisson Wok & Poulet Nico", desc: "Saisir à feu vif le chou chinois et les carottes au wok avec l'huile de sésame et la sauce soja. Faire poêler le poulet de Nicolas séparément." },
-          { temps: "1h50 - 2h30", titre: "Finition & Boîtes", desc: "Mixer le velouté de panais. Étancher, faire refroidir et répartir l'ensemble dans les contenants hermétiques." }
-        ],
-        recettes: [
-          { titre: "1. Wok de chou chinois & carottes", pas: "Émincez finement le chou chinois et tailler les carottes en bâtonnets. Saisissez au wok chaud avec l'huile de sésame et la sauce soja pendant 10 min.", nico: "Mélanger avec des morceaux de poulet émincé poêlés.", loic: "Servir avec une portion de riz ou pâtes PCU." },
-          { titre: "2. Velouté doux de panais & céleri-rave", pas: "Faites cuire les dés de panais et de céleri dans du bouillon jusqu'à ce qu'ils soient tendres. Mixez finement en ajoutant une touche de crème végétale.", nico: "Ajouter des croûtons dorés et du fromage râpé.", loic: "Consommer tel quel (très faible apport en protéines)." },
-          { titre: "3. Gratin de pommes de terre & courges rôties", pas: "Coupez les légumes en fines rondelles. Disposez-les en couches alternées dans un plat à gratin. Arrosez de bouillon et d'un filet d'huile.", nico: "Ajouter du fromage râpé sur le dessus et faire gratiné au four.", loic: "Cuire sans fromage pour respecter l'apport en protéines strict." },
-          { titre: "4. Tarte fine aux poireaux & pommes", pas: "Faites tomber les poireaux à la poêle. Étalez sur la pâte, disposez de très fines tranches de pommes et enfournez 25 min à 180°C.", nico: "Peut s'accompagner d'une salade et de tranches de bacon rôti.", loic: "Utiliser une pâte spécifique autorisée et consommer avec des légumes verts." }
-        ]
-      },
-      {
-        id: "semaine-printemps-douceur",
-        titre: "🌱 Printemps — Légumes Verts & Curry Doux",
-        saison: "Printemps",
-        styles: ["Curry & Épices douces", "Réconfortant & Mijoté"],
-        planning: [
-          { jour: "Lundi", midi: "🍛 Curry de patates douces & courgettes au coco", soir: "🥘 Blanquette printanière de navets & carottes" },
-          { jour: "Mardi", midi: "🥔 Purée de pommes de terre aux poireaux fondants", soir: "🥦 Poêlée rôtie de brocolis & carottes" },
-          { jour: "Mercredi", midi: "🥘 Blanquette printanière de navets & carottes (Reste)", soir: "🍛 Curry de patates douces & courgettes au coco (Reste)" },
-          { jour: "Jeudi", midi: "🥦 Poêlée rôtie de brocolis & carottes (Reste)", soir: "🥔 Purée de pommes de terre aux poireaux fondants (Reste)" },
-          { jour: "Vendredi", midi: "🍛 Curry de patates douces (+ Steak Nico)", soir: "🥘 Blanquette printanière (Reste)" }
-        ],
-        courses: {
-          legumes: ["Patates douces : 1,5 kg", "Courgettes : 1 kg", "Navets nouveaux : 1 kg", "Carottes : 1,5 kg", "Brocolis : 1 kg", "Poireaux : 800 g"],
-          epicerie: ["Lait de coco : 400 ml", "Curry doux en poudre", "Fécule de maïs", "Riz classique / PCU"],
-          proteines: ["Steaks hachés / Pavés de saumon (Nico) : 4 pcs", "Crème fraîche (Nico)"]
-        },
-        organisation: [
-          { temps: "0 - 25 min", titre: "Découpes & Four", desc: "Détailler brocolis et carottes. Placer sur plaque au four avec filet d'huile d'olive 20 min à 190°C." },
-          { temps: "25 - 55 min", titre: "Curry & Blanquette", desc: "Mettre à mijoter le curry patates douces/courgettes/coco. Dans un second faitout, faire revenir navets et carottes pour la blanquette végétale." },
-          { temps: "55 - 1h30", titre: "Purée & Poireaux", desc: "Cuire les pommes de terre et faire suer les poireaux. Écraser la purée et incorporer les poireaux fondants." },
-          { temps: "1h30 - 2h10", titre: "Viandes Nico & Pâtes PCU", desc: "Cuire les pièces de viande/poisson pour Nicolas. Préparer les féculents de Loïc." },
-          { temps: "2h10 - 2h30", titre: "Mise en boîtes", desc: "Conditionner l'ensemble des 4 préparations dans les récipients de stockage." }
-        ],
-        recettes: [
-          { titre: "1. Curry de patates douces & courgettes", pas: "Faites revenir les dés de patate douce et courgette. Ajoutez le curry doux, mouillez au lait de coco et laissez confire 20 min.", nico: "Accompagner d'un steak haché ou pavé de saumon poêlé.", loic: "Servir avec le féculent spécial PCU." },
-          { titre: "2. Blanquette printanière de navets & carottes", pas: "Faites simuler navets et carottes dans un bouillon aromatique. Liez la sauce avec un peu de fécule et de crème végétale.", nico: "Ajouter de la crème fraîche classique et des morceaux de volaille.", loic: "Garder la sauce 100% végétale et légère." },
-          { titre: "3. Purée de pommes de terre aux poireaux fondants", pas: "Faites fondre les poireaux émincés à feu doux. Incorporez-les à une purée maison de pommes de terre à la muscade.", nico: "Servir avec la protéine du jour.", loic: "Servir en portion contrôlée selon les recommandations du régime." },
-          { titre: "4. Poêlée rôtie de brocolis & carottes", pas: "Mélangez les fleurettes de brocolis et rondelles de carottes avec l'huile d'olive. Enfournez jusqu'à coloration tendre.", nico: "Ajouter du fromage râpé ou des graines rôties.", loic: "Consommer accompagné de riz PCU." }
-        ]
-      },
-      {
-        id: "semaine-ete-fraicheur",
-        titre: "☀️ Été — Salades Croquantes & Poêlées Ensoleillées",
-        saison: "Été",
-        styles: ["Salades & Fraîcheur", "Wok & Poêlées"],
-        planning: [
-          { jour: "Lundi", midi: "🥗 Salade croquante de concombre, maïs & radis", soir: "🍆 Ratatouille douce aux courgettes & poivrons" },
-          { jour: "Mardi", midi: "🥔 Salade tiède de pommes de terre & herbes fraîches", soir: "🥒 Poêlée de courgettes & tomates rôties" },
-          { jour: "Mercredi", midi: "🍆 Ratatouille douce (Reste)", soir: "🥗 Salade croquante de concombre, maïs & radis (Reste)" },
-          { jour: "Jeudi", midi: "🥒 Poêlée de courgettes & tomates rôties (Reste)", soir: "🥔 Salade tiède de pommes de terre & herbes (Reste)" },
-          { jour: "Vendredi", midi: "🥗 Salade croquante (+ Thon Nico)", soir: "🍆 Ratatouille douce (Reste)" }
-        ],
-        courses: {
-          legumes: ["Concombres : 2 pcs", "Courgettes : 2 kg", "Poivrons doux : 1 kg", "Tomates : 1,5 kg", "Pommes de terre : 1,5 kg", "Radis : 1 botte", "Ail, Basilic"],
-          epicerie: ["Maïs en conserve : 1 boîte", "Huile d'olive, Vinaigre", "Pâtes PCU / Riz"],
-          proteines: ["Thon en boîte / Brochettes poulet (Nico) : 400g", "Féta (Nico)"]
-        },
-        organisation: [
-          { temps: "0 - 30 min", titre: "Mijoté Ratatouille", desc: "Couper courgettes, poivrons et tomates. Mettre à mijoter la ratatouille avec un filet d'huile d'olive et de l'ail." },
-          { temps: "30 - 1h00", titre: "Cuisson Pommes de terre & Poêlée", desc: "Faire cuire les pommes de terre à la vapeur. Poêler à feu vif le reste de courgettes et tomates." },
-          { temps: "1h00 - 1h40", titre: "Découpes Salades", desc: "Trancher concombres et radis. Préparer les assaisonnements séparés pour conserver la fraîcheur." },
-          { temps: "1h40 - 2h10", titre: "Cuisson Protéines Nico & PCU", desc: "Griller les brochettes de poulet pour Nicolas. Préparer les substituts de féculents Loïc." },
-          { temps: "2h10 - 2h30", titre: "Mise en boîtes", desc: "Ranger l'ensemble dans les contenants au frais." }
-        ],
-        recettes: [
-          { titre: "1. Salade croquante concombre & maïs", pas: "Tailler les concombres et radis en fines rondelles. Mélanger avec le maïs et une vinaigrette légère.", nico: "Ajouter du thon émietté et de la féta.", loic: "Consommer avec féculent PCU au besoin." },
-          { titre: "2. Ratatouille douce courgettes & poivrons", pas: "Faire confire les légumes à feu doux dans de l'huile d'olive avec de l'ail et du basilic.", nico: "Servir avec des brochettes de poulet.", loic: "Servir tel quel ou avec pommes de terre vapeur." },
-          { titre: "3. Salade tiède de pommes de terre & herbes", pas: "Dés de pommes de terre cuites à la vapeur assaisonnées d'une vinaigrette aux herbes.", nico: "Accompagner de la protéine au choix.", loic: "Adapter la portion selon les recommandations PCU." },
-          { titre: "4. Poêlée de courgettes & tomates rôties", pas: "Saisir les légumes à feu vif avec un filet d'huile d'olive jusqu'à coloration.", nico: "Agrémenter de fromage râpé.", loic: "Consommer avec riz PCU." }
-        ]
-      }
+    const moisAnnee = [
+      "Tous", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
     ];
 
     const stylesDisponibles = [
@@ -160,14 +39,314 @@
       "Vapeur"
     ];
 
-    const propositionsRemplacement = [
-      { nom: "🥧 Tarte fine aux poireaux & pommes", desc: "Poireaux fondants & tranches de pommes rôties." },
-      { nom: "🍛 Curry de patates douces & coco", desc: "Douceur de coco, patates douces et épices douces." },
-      { nom: "🥘 Blanquette printanière de légumes", desc: "Carottes, navets et courgettes nappés d'une sauce crémeuse." },
-      { nom: "🌮 Chili Sin Carne aux poivrons & maïs", desc: "Poivrons, maïs, haricots rouges et coulis de tomate (sans lentilles)." },
-      { nom: "🥗 Salade croquante concombre & maïs", desc: "Concombres, radis, maïs et vinaigrette aux herbes." },
-      { nom: "🍆 Ratatouille douce aux courgettes", desc: "Courgettes, poivrons et tomates confites à l'huile d'olive." }
+    // Banque globale de recettes pour la génération dynamique
+    const banqueRecettes = [
+      {
+        titre: "Risotto de carottes au cumin",
+        mois: ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"],
+        style: "Réconfortant & Mijoté",
+        mode: "Gazinière (Sauteuse...)",
+        pas: "Faites rôtir des dés de carottes au cumin. Lancez la base de risotto avec l'oignon et le bouillon. Incorporez les carottes et le persil en fin de cuisson.",
+        nico: "Ajouter du parmesan râpé et servir avec une paupiette poêlée.",
+        loic: "Utiliser exclusivement le substitut de riz spécial PCU.",
+        legumes: ["Carottes : 1,2 kg", "Oignons, Persil"],
+        epicerie: ["Riz Arborio (Nico) / PCU (Loïc)", "Cumin, Huile d'olive", "Bouillon de légumes"],
+        proteines: ["Paupiettes (Nico) : 2 à 4 pcs", "Parmesan râpé"]
+      },
+      {
+        titre: "Daube douce de navets & carottes",
+        mois: ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars"],
+        style: "Réconfortant & Mijoté",
+        mode: "Mijoteuse",
+        pas: "Faites revenir oignons, navets et carottes. Ajoutez le concentré de tomate, le thym, l'ail et mouillez au bouillon. Laissez mijoter à feu doux 40 min.",
+        nico: "Accompagner d'une portion de paupiette ou viande au choix.",
+        loic: "Déguster nature ou avec un supplément de pommes de terre vapeur.",
+        legumes: ["Navets : 1 kg", "Carottes : 1 kg", "Pommes de terre : 1 kg", "Ail, Thym"],
+        epicerie: ["Concentré de tomate", "Bouillon de légumes", "Huile d'olive"],
+        proteines: ["Viande au choix (Nico)"]
+      },
+      {
+        titre: "Hachis Parmentier aux légumes & champignons",
+        mois: ["Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars"],
+        style: "Gratins & Tartes",
+        mode: "Four",
+        pas: "Faites revenir les champignons avec l'ail. Préparez une purée de pommes de terre bien lisse. Éparpillez les légumes puis couvrez de purée.",
+        nico: "Ajouter de la viande hachée ou du thon au fond du plat et gratiner au fromage.",
+        loic: "Conserver la version 100% légumes et purée (sans protéine).",
+        legumes: ["Pommes de terre : 1,5 kg", "Champignons : 300 g", "Ail, Persil"],
+        epicerie: ["Huile d'olive", "Muscade"],
+        proteines: ["Viande hachée / Thon (Nico) : 300 g", "Fromage râpé (Nico)"]
+      },
+      {
+        titre: "Poêlée rôtie chou-fleur & carottes au sésame",
+        mois: ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars"],
+        style: "Wok & Poêlées",
+        mode: "Airfryer",
+        pas: "Détaillez le chou-fleur en fleurettes et les carottes en rondelles. Assaisonnez d'huile et de sésame puis cuisez au Airfryer ou Four à 200°C 25 min.",
+        nico: "Servir accompagné de riz classique et d'une escalope.",
+        loic: "Servir accompagné du substitut de riz/pâtes PCU.",
+        legumes: ["Chou-fleur : 1,2 kg", "Carottes : 800 g"],
+        epicerie: ["Graines de sésame", "Huile de sésame", "Riz classique / PCU"],
+        proteines: ["Escalopes de poulet (Nico) : 4 pcs"]
+      },
+      {
+        titre: "Wok de chou chinois & carottes au sésame",
+        mois: ["Novembre", "Décembre", "Janvier", "Février", "Mars"],
+        style: "Wok & Poêlées",
+        mode: "Gazinière (Sauteuse...)",
+        pas: "Émincez finement le chou chinois et les carottes en bâtonnets. Saisissez au wok ou sauteuse avec l'huile de sésame et la sauce soja pendant 10 min.",
+        nico: "Mélanger avec des morceaux de poulet émincé poêlés.",
+        loic: "Servir avec une portion de riz ou pâtes PCU.",
+        legumes: ["Chou chinois : 1 pc", "Carottes : 800 g"],
+        epicerie: ["Sauce soja sans gluten", "Huile de sésame", "Pâtes / Riz PCU"],
+        proteines: ["Émincé de poulet (Nico) : 400 g"]
+      },
+      {
+        titre: "Velouté doux de panais & céleri-rave",
+        mois: ["Novembre", "Décembre", "Janvier", "Février", "Mars"],
+        style: "Soupes & Veloutés",
+        mode: "Vapeur",
+        pas: "Cuisez les dés de panais et céleri à la vapeur puis mixez finement avec du bouillon et une touche de crème végétale.",
+        nico: "Ajouter des croûtons dorés et du fromage râpé.",
+        loic: "Consommer tel quel (très faible apport en protéines).",
+        legumes: ["Panais : 1 kg", "Céleri-rave : 1/2 pc"],
+        epicerie: ["Crème végétale", "Bouillon de légumes"],
+        proteines: ["Fromage râpé / Croûtons (Nico)"]
+      },
+      {
+        titre: "Tarte fine aux poireaux & pommes",
+        mois: ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"],
+        style: "Gratins & Tartes",
+        mode: "Four",
+        pas: "Faites tomber les poireaux à la poêle. Étalez sur la pâte autorisée, disposez de très fines tranches de pommes et enfournez 25 min à 180°C.",
+        nico: "S'accompagne d'une salade verte et de tranches de bacon rôti.",
+        loic: "Utiliser une pâte spécifique autorisée PCU.",
+        legumes: ["Poireaux : 1,2 kg", "Pommes : 3 pcs"],
+        epicerie: ["Pâte à tarte autorisée / PCU", "Huile d'olive"],
+        proteines: ["Bacon rôti (Nico) : 150 g"]
+      },
+      {
+        titre: "Curry de patates douces & courgettes au coco",
+        mois: ["Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre"],
+        style: "Curry & Épices douces",
+        mode: "Gazinière (Sauteuse...)",
+        pas: "Faites revenir les dés de patate douce et courgette. Ajoutez le curry doux, mouillez au lait de coco et laissez confire 20 min.",
+        nico: "Accompagner d'un steak haché ou pavé de saumon poêlé.",
+        loic: "Servir avec le féculent spécial PCU.",
+        legumes: ["Patates douces : 1,2 kg", "Courgettes : 1 kg"],
+        epicerie: ["Lait de coco : 400 ml", "Curry doux", "Riz classique / PCU"],
+        proteines: ["Steaks hachés / Saumon (Nico) : 4 pcs"]
+      },
+      {
+        titre: "Ratatouille douce aux courgettes & poivrons",
+        mois: ["Juin", "Juillet", "Août", "Septembre"],
+        style: "Réconfortant & Mijoté",
+        mode: "Mijoteuse",
+        pas: "Faire confire à feu doux courgettes, poivrons et tomates dans de l'huile d'olive avec de l'ail et du basilic.",
+        nico: "Servir avec des brochettes de poulet grillées.",
+        loic: "Servir tel quel ou avec pommes de terre vapeur.",
+        legumes: ["Courgettes : 1,5 kg", "Poivrons doux : 1 kg", "Tomates : 1 kg", "Ail, Basilic"],
+        epicerie: ["Huile d'olive extra-vierge"],
+        proteines: ["Brochettes de poulet (Nico) : 4 pcs"]
+      },
+      {
+        titre: "Salade croquante de concombre, maïs & radis",
+        mois: ["Mai", "Juin", "Juillet", "Août", "Septembre"],
+        style: "Salades & Fraîcheur",
+        mode: "Sans cuisson",
+        pas: "Tailler concombres et radis en fines rondelles. Mélanger avec le maïs et une vinaigrette légère aux herbes.",
+        nico: "Ajouter du thon émietté et de la féta.",
+        loic: "Consommer avec féculent PCU au besoin.",
+        legumes: ["Concombres : 2 pcs", "Radis : 1 botte", "Ciboulette"],
+        epicerie: ["Maïs en conserve : 1 boîte", "Vinaigrette maison"],
+        proteines: ["Thon en boîte (Nico) : 200 g", "Féta (Nico) : 100 g"]
+      },
+      {
+        titre: "Tian de légumes du soleil rôti",
+        mois: ["Juin", "Juillet", "Août", "Septembre"],
+        style: "Gratins & Tartes",
+        mode: "Four",
+        pas: "Trancher finement courgettes, tomates et aubergines. Les disposer en rangées serrées, arroser d'huile d'olive et de thym puis cuire 40 min au four.",
+        nico: "Ajouter de la féta ou de la mozzarella gratinée sur le dessus.",
+        loic: "Servir nature avec une portion de pommes de terre rôties.",
+        legumes: ["Courgettes : 1 kg", "Tomates : 1 kg", "Aubergines : 800 g", "Thym"],
+        epicerie: ["Huile d'olive", "Pommes de terre / PCU"],
+        proteines: ["Mozzarella / Féta (Nico) : 200 g"]
+      },
+      {
+        titre: "Poêlée croquante brocolis & patates douces au Airfryer",
+        mois: ["Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"],
+        style: "Wok & Poêlées",
+        mode: "Airfryer",
+        pas: "Couper les brocolis en fleurettes et la patate douce en cubes. Mélanger avec de l'huile d'olive et des épices douces puis cuisez 18 min au Airfryer.",
+        nico: "Servir avec un filet de dinde grillé.",
+        loic: "Accompagner de riz ou féculents PCU autorisés.",
+        legumes: ["Brocolis : 1 kg", "Patates douces : 1 kg"],
+        epicerie: ["Paprika doux", "Huile d'olive", "Riz PCU"],
+        proteines: ["Filet de dinde (Nico) : 4 pcs"]
+      },
+      {
+        titre: "Blanquette végétale de navets & carottes",
+        mois: ["Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"],
+        style: "Réconfortant & Mijoté",
+        mode: "Gazinière (Sauteuse...)",
+        pas: "Faites simuler navets et carottes dans un bouillon aromatique. Liez la sauce avec un peu de fécule et de crème végétale.",
+        nico: "Ajouter de la crème fraîche classique et des émincés de dinde.",
+        loic: "Garder la sauce 100% végétale et légère.",
+        legumes: ["Navets nouveaux : 1 kg", "Carottes : 1 kg", "Poireaux : 500 g"],
+        epicerie: ["Fécule de maïs", "Crème végétale", "Bouillon de légumes"],
+        proteines: ["Émincé de dinde (Nico) : 400 g"]
+      },
+      {
+        titre: "Frites de panais & carottes rôties",
+        mois: ["Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars"],
+        style: "Wok & Poêlées",
+        mode: "Friteuse",
+        pas: "Tailler les panais et carottes en bâtonnets. Passer à la friteuse sans huile ou traditionnelle jusqu'à doré et croustillant.",
+        nico: "Accompagner d'un burger maison sans lentilles.",
+        loic: "Déguster avec une salade croquante autorisée.",
+        legumes: ["Panais : 1,2 kg", "Carottes : 1,2 kg"],
+        epicerie: ["Huile de friture", "Herbes de Provence"],
+        proteines: ["Burger de boeuf (Nico) : 4 pcs"]
+      }
     ];
+
+    // Semaines initiales historiques (mises à jour avec des mois)
+    const databaseSemaines = [
+      {
+        id: "semaine-automne-racines",
+        titre: "🍂 Octobre — Légumes Racines & Douceur",
+        mois: "Octobre",
+        styles: ["Réconfortant & Mijoté", "Gratins & Tartes"],
+        planning: [
+          { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
+          { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
+          { jour: "Mercredi", midi: "🍲 Daube douce de navets, carottes & patates (Reste)", soir: "🥕 Risotto de carottes au cumin (Reste)" },
+          { jour: "Jeudi", midi: "🥔 Hachis parmentier aux légumes & champignons (Reste)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame (Reste)" },
+          { jour: "Vendredi", midi: "🥦 Poêlée rôtie de chou-fleur & carottes (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates (Reste)" }
+        ],
+        courses: {
+          legumes: ["Pommes de terre : 2,3 kg", "Carottes : 2,5 kg", "Navets : 1 kg", "Chou-fleur : 1,2 kg", "Champignons : 250 g", "Ail, Oignons, Persil, Thym"],
+          epicerie: ["Riz Arborio (Nico) / PCU (Loïc)", "Concentré de tomate", "Cumin, Sésame, Huile d'olive"],
+          proteines: ["Paupiettes (Nico) : 2 à 4 pcs", "Viande hachée / Thon (Nico) : 250 g", "Parmesan râpé"]
+        },
+        organisation: [
+          { temps: "0 - 20 min", titre: "Découpes & Préparations", desc: "Tailler le chou-fleur et 1 kg de carottes. Préparer les plateaux de cuisson." },
+          { temps: "20 - 50 min", titre: "Mijotés & Casseroles", desc: "Lancer la daube douce (oignons, navets, carottes, concentré de tomate). Cuire les patates pour la purée." },
+          { temps: "50 - 1h20", titre: "Assemblage & Risotto", desc: "Écraser la purée, monter le hachis parmentier. Lancer la base de risotto aux carottes." },
+          { temps: "1h20 - 2h00", titre: "Protéines Nico & PCU Loïc", desc: "Poêler les paupiettes et la viande de Nicolas à part. Cuire les féculents PCU de Loïc." },
+          { temps: "2h00 - 2h30", titre: "Conditionnement", desc: "Répartir dans les boîtes hermétiques pour la semaine et laisser refroidir." }
+        ],
+        recettes: [
+          { titre: "1. Risotto de carottes au cumin", pas: "Faites rôtir des dés de carottes au cumin. Lancez la base de risotto avec l'oignon et le bouillon. Incorporez carottes et persil.", nico: "Ajouter du parmesan râpé et servir avec une paupiette poêlée.", loic: "Utiliser exclusivement le substitut de riz spécial PCU." },
+          { titre: "2. Daube douce de navets & carottes", pas: "Faites revenir oignons, navets et carottes. Ajoutez concentré de tomate, thym, ail et bouillon. Laissez mijoter 40 min.", nico: "Accompagner d'une portion de paupiette ou viande au choix.", loic: "Déguster nature ou avec un supplément de pommes de terre vapeur." },
+          { titre: "3. Hachis Parmentier aux légumes", pas: "Faites revenir les champignons. Préparez une purée de pommes de terre lisse. Éparpillez légumes puis couvrez de purée.", nico: "Ajouter de la viande hachée au fond du plat et gratiner.", loic: "Conserver la version 100% légumes et purée (sans protéine)." },
+          { titre: "4. Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur en fleurettes et carottes en rondelles. Cuisez avec huile d'olive et sésame.", nico: "Servir accompagné de riz classique et d'une paupiette.", loic: "Servir accompagné du substitut de riz/pâtes PCU." }
+        ]
+      },
+      {
+        id: "semaine-hiver-veloutes",
+        titre: "❄️ Janvier — Veloutés & Wok Gourmand",
+        mois: "Janvier",
+        styles: ["Soupes & Veloutés", "Wok & Poêlées", "Gratins & Tartes"],
+        planning: [
+          { jour: "Lundi", midi: "🥢 Wok de chou chinois & carottes au sésame", soir: "🥣 Velouté doux de panais & céleri-rave" },
+          { jour: "Mardi", midi: "🥔 Gratin de pommes de terre & courges rôties", soir: "🥧 Tarte fine aux poireaux & pommes" },
+          { jour: "Mercredi", midi: "🥣 Velouté doux de panais & céleri-rave (Reste)", soir: "🥢 Wok de chou chinois & carottes au sésame (Reste)" },
+          { jour: "Jeudi", midi: "🥧 Tarte fine aux poireaux & pommes (Reste)", soir: "🥔 Gratin de pommes de terre & courges rôties (Reste)" },
+          { jour: "Vendredi", midi: "🥢 Wok de chou chinois & carottes (+ Poulet Nico)", soir: "🥣 Velouté doux de panais & céleri-rave (Reste)" }
+        ],
+        courses: {
+          legumes: ["Chou chinois : 1 pc", "Panais : 1 kg", "Céleri-rave : 1/2", "Poireaux : 1,2 kg", "Courge : 1 kg", "Pommes de terre : 1,5 kg", "Pommes : 3 pcs"],
+          epicerie: ["Pâtes classiques / PCU", "Riz / PCU", "Crème végétale", "Sauce soja, Pâte à tarte autorisée"],
+          proteines: ["Émincé de poulet (Nico) : 400g", "Fromage râpé (Nico) : 150g"]
+        },
+        organisation: [
+          { temps: "0 - 30 min", titre: "Découpes & Velouté", desc: "Couper panais, céleri, poireaux et courge. Mettre à cuire le panais et céleri au bouillon." },
+          { temps: "30 - 1h10", titre: "Gratin & Tarte", desc: "Trancher pommes de terre et courge. Préparer la fondue de poireaux et dresser la tarte fine." },
+          { temps: "1h10 - 1h50", titre: "Cuisson Wok & Poulet Nico", desc: "Saisir au wok chou chinois et carottes. Poêler le poulet de Nicolas séparément." },
+          { temps: "1h50 - 2h30", titre: "Mixage & Conditionnement", desc: "Mixer le velouté de panais. Refroidir et répartir dans les boîtes hermétiques." }
+        ],
+        recettes: [
+          { titre: "1. Wok de chou chinois & carottes", pas: "Saisissez au wok le chou chinois et les carottes avec huile de sésame et sauce soja 10 min.", nico: "Mélanger avec des morceaux de poulet émincé poêlés.", loic: "Servir avec une portion de riz ou pâtes PCU." },
+          { titre: "2. Velouté doux de panais & céleri-rave", pas: "Faites cuire dés de panais et céleri dans bouillon. Mixez finement avec une touche de crème végétale.", nico: "Ajouter des croûtons dorés et du fromage râpé.", loic: "Consommer tel quel (très faible apport en protéines)." },
+          { titre: "3. Gratin de pommes de terre & courges rôties", pas: "Tranchez les légumes en rondelles. Disposez en couches dans un plat, arrosez de bouillon.", nico: "Ajouter du fromage râpé sur le dessus et gratiner.", loic: "Cuire sans fromage pour respecter le régime strict." },
+          { titre: "4. Tarte fine aux poireaux & pommes", pas: "Faites tomber poireaux à la poêle. Étalez sur la pâte, disposez tranches de pommes et enfournez 25 min.", nico: "Peut s'accompagner d'une salade et de bacon rôti.", loic: "Utiliser une pâte spécifique autorisée." }
+        ]
+      }
+    ];
+
+    // Moteur de génération dynamique de menus selon TOUS les paramètres
+    function genererMenuDynamique(moisChoisi, stylesChoisis, modesChoisis) {
+      let pool = banqueRecettes.filter(r => {
+        const matchMois = (moisChoisi === "Tous" || r.mois.includes(moisChoisi));
+        const matchStyle = (stylesChoisis.length === 0 || stylesChoisis.includes(r.style));
+        const matchMode = (modesChoisis.length === 0 || modesChoisis.includes(r.mode));
+        return matchMois && matchStyle && matchMode;
+      });
+
+      // Si le filtre est trop strict, on élargit progressivement pour garantir 4 recettes
+      if (pool.length < 4 && modesChoisis.length > 0) {
+        pool = banqueRecettes.filter(r => {
+          const matchMois = (moisChoisi === "Tous" || r.mois.includes(moisChoisi));
+          const matchStyle = (stylesChoisis.length === 0 || stylesChoisis.includes(r.style));
+          return matchMois && matchStyle;
+        });
+      }
+
+      if (pool.length < 4) {
+        pool = [...banqueRecettes];
+      }
+
+      // Mélange aléatoire
+      const melange = [...pool].sort(() => 0.5 - Math.random());
+      const recs = melange.slice(0, 4);
+
+      // Construction des ingrédients combinés
+      const legumesSet = new Set();
+      const epicerieSet = new Set();
+      const proteinesSet = new Set();
+
+      recs.forEach(r => {
+        r.legumes?.forEach(i => legumesSet.add(i));
+        r.epicerie?.forEach(i => epicerieSet.add(i));
+        r.proteines?.forEach(i => proteinesSet.add(i));
+      });
+
+      const nomMoisLabel = moisChoisi !== "Tous" ? moisChoisi : "Sur-Mesure";
+
+      return {
+        id: `gen-${Date.now()}`,
+        titre: `✨ ${nomMoisLabel} — Menu Personnalisé (${recs[0].titre.split(' ')[0]} & ${recs[1].titre.split(' ')[0]})`,
+        mois: nomMoisLabel,
+        styles: stylesChoisis.length > 0 ? stylesChoisis : ["Varié & Équilibré"],
+        planning: [
+          { jour: "Lundi", midi: `1. ${recs[0].titre}`, soir: `2. ${recs[1].titre}` },
+          { jour: "Mardi", midi: `3. ${recs[2].titre}`, soir: `4. ${recs[3].titre}` },
+          { jour: "Mercredi", midi: `2. ${recs[1].titre} (Reste)`, soir: `1. ${recs[0].titre} (Reste)` },
+          { jour: "Jeudi", midi: `4. ${recs[3].titre} (Reste)`, soir: `3. ${recs[2].titre} (Reste)` },
+          { jour: "Vendredi", midi: `1. ${recs[0].titre} (+ Protéine Nico)`, soir: `2. ${recs[1].titre} (Reste)` }
+        ],
+        courses: {
+          legumes: Array.from(legumesSet),
+          epicerie: Array.from(epicerieSet),
+          proteines: Array.from(proteinesSet)
+        },
+        organisation: [
+          { temps: "0 - 30 min", titre: "Découpes & Préparations des légumes", desc: `Préparer les légumes pour "${recs[0].titre}" et "${recs[1].titre}".` },
+          { temps: "30 - 1h10", titre: "Mises en cuisson (Four/Mijoteuse/Airfryer)", desc: `Lancer la cuisson de "${recs[1].titre}" et la base de "${recs[2].titre}".` },
+          { temps: "1h10 - 1h50", titre: "Poêlées, Sauteuses & Vapeur", desc: `Cuire "${recs[0].titre}" et assembler "${recs[3].titre}".` },
+          { temps: "1h50 - 2h10", titre: "Protéines Nicolas & Féculents PCU Loïc", desc: "Poêler les viandes/poissons de Nicolas. Cuire les féculents PCU spécifiques." },
+          { temps: "2h10 - 2h30", titre: "Mise en boîtes & Refroidissement", desc: "Conditionner les 4 préparations séparément au frais." }
+        ],
+        recettes: recs.map((r, idx) => ({
+          titre: `${idx + 1}. ${r.titre}`,
+          pas: r.pas,
+          nico: r.nico,
+          loic: r.loic
+        }))
+      };
+    }
 
     function App() {
       const [tab, setTab] = React.useState('planning');
@@ -177,25 +356,28 @@
         { ...databaseSemaines[0], dateAjout: "Semaine initiale" }
       ]);
 
-      const [filtreSaison, setFiltreSaison] = React.useState('Toutes');
+      const [filtreMois, setFiltreMois] = React.useState('Tous');
       const [selectedStyles, setSelectedStyles] = React.useState([]);
       const [modesCoches, setModesCoches] = React.useState([]);
-      const [propositionSemaine, setPropositionSemaine] = React.useState(JSON.parse(JSON.stringify(databaseSemaines[1])));
+
+      // Proposition dynamique générée
+      const [propositionSemaine, setPropositionSemaine] = React.useState(() => 
+        genererMenuDynamique('Octobre', [], [])
+      );
 
       const [selectedSlot, setSelectedSlot] = React.useState(null);
-      const [newRecipeChoice, setNewRecipeChoice] = React.useState(propositionsRemplacement[0].nom);
+      const [newRecipeChoice, setNewRecipeChoice] = React.useState(banqueRecettes[0].titre);
 
       const [coursesCochees, setCoursesCochees] = React.useState({});
 
+      // Régénération quand les filtres changent
       React.useEffect(() => {
-        const trouvee = databaseSemaines.find(s => {
-          const matchSaison = (filtreSaison === 'Toutes' || s.saison === filtreSaison);
-          const matchStyle = selectedStyles.length === 0 || selectedStyles.some(st => s.styles.includes(st));
-          return matchSaison && matchStyle && s.id !== semaineData.id;
-        });
-        const base = trouvee || databaseSemaines.find(s => s.id !== semaineData.id) || databaseSemaines[0];
-        setPropositionSemaine(JSON.parse(JSON.stringify(base)));
-      }, [filtreSaison, selectedStyles, semaineData]);
+        setPropositionSemaine(genererMenuDynamique(filtreMois, selectedStyles, modesCoches));
+      }, [filtreMois, selectedStyles, modesCoches]);
+
+      const regenererPropositionALaVolee = () => {
+        setPropositionSemaine(genererMenuDynamique(filtreMois, selectedStyles, modesCoches));
+      };
 
       const toggleStyleFilter = (style) => {
         setSelectedStyles(prev => 
@@ -422,24 +604,24 @@
             </section>
           )}
 
-          {/* Nouvelle Semaine - AVEC POINT 3 AJOUTÉ */}
+          {/* Nouvelle Semaine - MOTEUR DYNAMIQUE MULTI-CRITÈRES */}
           {tab === 'gemini' && (
             <section className="bg-white p-6 rounded-2xl shadow-md border-2 border-orange-200 space-y-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-bl-lg">Assistant</div>
+              <div className="absolute top-0 right-0 bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-bl-lg">Générateur Dynamique</div>
               <div className="text-center space-y-2">
                 <h2 className="text-2xl font-bold text-orange-700 border-b border-orange-100 pb-2">✨ Créer un nouveau plan de semaine</h2>
                 <p className="text-sm text-slate-600 max-w-lg mx-auto pt-2">
-                  Personnalisez vos choix avant de générer ou simuler une proposition de planning.
+                  Sélectionnez vos critères (mois, styles, modes). Le système génère automatiquement une nouvelle combinaison de recettes adaptée !
                 </p>
               </div>
 
               <div className="space-y-5 bg-orange-50/50 p-5 rounded-xl border border-orange-100">
                 <div>
-                  <label className="block text-sm font-bold text-amber-900 mb-2">1. Saison souhaitée :</label>
+                  <label className="block text-sm font-bold text-amber-900 mb-2">1. Mois de l'année :</label>
                   <div className="flex flex-wrap gap-2">
-                    {["Toutes", "Printemps", "Été", "Automne", "Hiver"].map((s, idx) => (
-                      <button key={idx} onClick={() => setFiltreSaison(s)} className={`px-4 py-2 rounded-lg text-sm font-semibold transition shadow-sm ${filtreSaison === s ? 'bg-orange-600 text-white' : 'bg-white border border-orange-200 text-slate-700 hover:bg-orange-100'}`}>
-                        {s}
+                    {moisAnnee.map((m, idx) => (
+                      <button key={idx} onClick={() => setFiltreMois(m)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition shadow-sm ${filtreMois === m ? 'bg-orange-600 text-white' : 'bg-white border border-orange-200 text-slate-700 hover:bg-orange-100'}`}>
+                        {m}
                       </button>
                     ))}
                   </div>
@@ -471,9 +653,14 @@
               </div>
 
               <div className="border border-orange-200 rounded-xl p-4 bg-orange-50/30 space-y-3">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-bold text-amber-900 text-base">📌 Proposition : {propositionSemaine.titre}</h3>
-                  <span className="text-xs bg-orange-200 text-orange-900 px-2.5 py-1 rounded-full font-semibold">{propositionSemaine.saison}</span>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                  <h3 className="font-bold text-amber-900 text-base">{propositionSemaine.titre}</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-orange-200 text-orange-900 px-2.5 py-1 rounded-full font-semibold">{propositionSemaine.mois}</span>
+                    <button onClick={regenererPropositionALaVolee} className="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-lg border border-amber-300 transition shadow-sm">
+                      🎲 Régénérer une proposition
+                    </button>
+                  </div>
                 </div>
                 <p className="text-xs text-slate-500">Cliquez sur un repas ci-dessous pour le remplacer avant validation :</p>
                 <div className="grid gap-2 text-sm">
@@ -514,10 +701,10 @@
                 <select 
                   value={newRecipeChoice} 
                   onChange={e => setNewRecipeChoice(e.target.value)}
-                  className="w-full p-3 border border-orange-200 rounded-xl mb-6 bg-white text-slate-800 focus:ring-orange-500 font-medium"
+                  className="w-full p-3 border border-orange-200 rounded-xl mb-6 bg-white text-slate-800 focus:ring-orange-500 font-medium text-sm"
                 >
-                  {propositionsRemplacement.map((p, i) => (
-                    <option key={i} value={p.nom}>{p.nom} - {p.desc}</option>
+                  {banqueRecettes.map((p, i) => (
+                    <option key={i} value={p.titre}>{p.titre} ({p.mode})</option>
                   ))}
                 </select>
                 
