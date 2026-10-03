@@ -3,58 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batch Cooking Pro - Loïc & Nicolas</title>
+    <!-- Nouveau titre de l'application -->
+    <title>Aux fourneaux de cacahuète et patate</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Styles pour les transitions de l'interface */
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        /* Pour masquer la scrollbar mais garder le défilement */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Style pour barrer les éléments cochés dans la liste de courses */
+        .strikethrough { text-decoration: line-through; color: #94a3b8; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans">
-    <div id="root"></div>
+    <div id="root">
+        <div class="p-8 text-center text-slate-500 font-sans">Chargement de l'application...</div>
+    </div>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- CONSTANTES & CONFIGURATION DE BASE ---
+        // --- 💾 CONFIGURATION DE LA MÉMOIRE (LocalStorage) ---
+        // Ces clés permettent de conserver les données même après une mise à jour du code sur GitHub.
+        const STORAGE_KEY_HISTORY = 'cacahuetePatate_history';
+        const STORAGE_KEY_PROMPT = 'cacahuetePatate_generatorPrompt';
+        const STORAGE_KEY_COURSES = 'cacahuetePatate_coursesCheck';
 
-        const STORAGE_KEY_PLANNING = 'batchCooking_planningHistory';
-        const STORAGE_KEY_PROMPT = 'batchCooking_generatorPrompt';
+        // --- ⚙️ DONNÉES DE CONFIGURATION & PROMPT PAR DÉFAUT ---
 
         const MODES_CUISSON = [
             { id: 'sans_cuisson', label: '🥗 Sans cuisson (Assemblage)' },
-            { id: 'gaziniere', label: '🔥 Gazinière / Plaques (Poêle, Casserole)' },
-            { id: 'four', label: '🧙‍♂️ Four' },
+            { id: 'gaziniere', label: '🔥 Gazinière / Plaques' },
+            { id: 'four', label: '👨‍🍳 Four' },
             { id: 'vapeur', label: '💧 Vapeur' },
             { id: 'friteuse', label: '🍟 Friteuse / Air Fryer' },
-            { id: 'miroite', label: '🥘 Mijoteuse' }
+            { id: 'mijo', label: '🥘 Mijoteuse' }
         ];
 
-        const DEFAULT_PROMPT = `Tu es une IA experte en nutrition et en organisation de Batch Cooking. Ton but est de générer un plan de repas complet pour une semaine (5 jours, midi et soir) pour deux hommes, Nicolas et Loïc.
+        const DEFAULT_PROMPT = `Tu es une IA experte en nutrition et organisation de Batch Cooking. Ton but est de générer un plan de repas complet pour une semaine (5 jours, midi et soir) pour deux hommes, Nicolas et Loïc.
 
 CONTRAINTES ALIMENTAIRES :
 1.  **Nicolas :** Mange de tout, mais DETESTE les LENTILLES.
-2.  **Loïc :** Atteint de PHÉNYLCÉTONURIE (PCU). Il doit avoir une alimentation TRES FAIBLE EN PROTÉINES. Il utilise des substituts (pâtes, riz, farine PCU) et des mélanges d'acides aminés.
+2.  **Loïc :** Atteint de PHÉNYLCÉTONURIE (PCU). Il doit avoir une alimentation TRES FAIBLE EN PROTÉINES. Il utilise des substituts (pâtes, riz, farine PCU) et des mélanges d'acides aminés fournis séparément.
 
 OBJECTIFS DE LA GÉNÉRATION :
 -   **Structure commune :** Propose des plats dont la BASE (légumes, féculents) est commune et 100% végétal/faible en protéines (donc compatible Loïc).
 -   **Déclinaisons :** Explique clairement comment Nicolas peut AJOUTER ses protéines (viande, poisson, œufs, fromage, légumineuses SAUF lentilles) sur sa portion à lui.
 -   **Optimisation :** Conçois le plan pour qu'il soit réalisable en 2h à 3h de cuisine le dimanche.
--   **Saisonnalité :** Utilise des produits de saison (actuellement : {saison_actuelle}).
+-   **Saisonnalité :** Utilise des produits de saison (Saison cible : {saison_cible}).
+-   **Matériel :** Privilégie les recettes utilisant ces modes de préparation : {modes_cuisson}.
 
 FORMAT DE RÉPONSE (Strictement en JSON) :
 Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou après, respectant cette structure :
 {{
   "saison": "Mois / Période",
   "planning": [
-    {{ "jour": "Lundi", "midi": "Nom du plat commun (Déclinaison Nico: +poulet)", "soir": "Nom du plat" }},
+    {{ "jour": "Lundi", "midi": "Nom du plat commun (Nic: +poulet)", "soir": "Nom du plat" }},
     ... (pour 5 jours)
   ],
   "courses": {{
@@ -63,19 +71,29 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
     "proteines_nico": ["Viande : Quantité", "Fromage : Quantité"]
   }},
   "batchcooking": [
-    {{ "temps": "T0 (0-30 min)", "action": "Découpe des légumes...", "consigne": "Préchauffer le four..." }},
+    {{ "temps": "T0 (0-20 min)", "action": "Découpe", "consigne": "Couper tous les légumes." }},
     ... (Plan détaillé sur 2h30)
   ],
   "recettes": [
-    {{ "nom": "Nom du plat 1", "base_commune": "Etapes végétales...", "pcu_loic": "Consignes spécifiques...", "nico": "Ajouts de protéines..." }}
+    {{ "nom": "Nom du plat 1", "base_commune": "Etapes végétales...", "pcu_loic": "Spécifique Loïc...", "nico": "Ajouts de protéines..." }}
   ]
 }}`;
 
-        // --- COMPOSANTS INTERFACE (UI) ---
+        // --- 🧩 COMPOSANTS D'INTERFACE ---
 
-        // Composant pour les cases à cocher (Mode Cuisson)
+        const NavItem = ({ id, label, icon, activeTab, setActiveTab }) => (
+            <button 
+                onClick={() => setActiveTab(id)}
+                className={`flex items-center space-x-2 pb-3 px-1 border-b-2 transition font-medium text-sm shrink-0 ${activeTab === id ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}`}
+            >
+                <span>{icon}</span>
+                <span>{label}</span>
+            </button>
+        );
+
+        // Composant Case à cocher pour le formulaire
         const Checkbox = ({ id, label, checked, onChange }) => (
-            <label htmlFor={id} className="flex items-center space-x-3 p-3 border rounded-lg bg-white hover:bg-slate-50 cursor-pointer transition">
+            <label htmlFor={id} className="flex items-center space-x-3 p-3 border rounded-xl bg-white hover:bg-slate-50 cursor-pointer transition">
                 <input
                     type="checkbox"
                     id={id}
@@ -87,206 +105,179 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
             </label>
         );
 
-        // Composant pour l'éditeur de prompt (Paramètres)
-        const PromptEditor = ({ prompt, setPrompt }) => (
-            <div className="space-y-4 fade-in">
-                <div className="flex items-center justify-between border-b pb-3">
-                    <h3 className="text-xl font-bold text-slate-900">⚙️ Paramètres de l'IA</h3>
-                    <button 
-                        onClick={() => { if(confirm("Réinitialiser le prompt par défaut ?")) setPrompt(DEFAULT_PROMPT); }}
-                        className="text-xs text-slate-500 hover:text-rose-600 font-medium transition"
-                    >
-                        Réinitialiser par défaut
-                    </button>
-                </div>
-                <p className="text-sm text-slate-600">
-                    Voici le "prompt" (la consigne) envoyé à l'IA pour générer tes semaines. Tu peux le modifier pour corriger des erreurs récurrentes ou ajuster tes préférences. Les variables <code className="bg-slate-100 px-1 rounded">{'{saison_actuelle}'}</code> et <code className="bg-slate-100 px-1 rounded">{'{modes_cuisson}'}</code> seront remplacées automatiquement.
-                </p>
-                <textarea
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    rows="20"
-                    className="w-full p-4 border border-slate-300 rounded-xl font-mono text-xs bg-white focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400"
-                />
-            </div>
-        );
-
-        // --- APPLICATION PRINCIPALE (LOGIQUE) ---
+        // --- 🚀 APPLICATION PRINCIPALE ---
 
         function App() {
-            // -- ÉTATS (STATE) --
+            // -- ÉTATS (STATE) & MÉMOIRE --
+
             const [activeTab, setActiveTab] = useState('planning');
-            
-            // Mémoire (localStorage) : Historique du planning
-            const [planningHistory, setPlanningHistory] = useState(() => {
-                const saved = localStorage.getItem(STORAGE_KEY_PLANNING);
+            const [showPromptEditor, setShowPromptEditor] = useState(false); // Pour masquer/afficher l'éditeur
+
+            // 💾 CHARGEMENT INITIAL DE LA MÉMOIRE
+            const [history, setHistory] = useState(() => {
+                const saved = localStorage.getItem(STORAGE_KEY_HISTORY);
                 return saved ? JSON.parse(saved) : [];
             });
 
-            // Mémoire (localStorage) : Prompt éditable
             const [generatorPrompt, setGeneratorPrompt] = useState(() => {
                 const saved = localStorage.getItem(STORAGE_KEY_PROMPT);
                 return saved || DEFAULT_PROMPT;
             });
 
+            // État pour cocher la liste de courses
+            const [coursesChecked, setCoursesChecked] = useState(() => {
+                const saved = localStorage.getItem(STORAGE_KEY_COURSES);
+                return saved ? JSON.parse(saved) : {};
+            });
+
             // États formulaire de génération
-            const [saison, setSaison] = useState('Mi-Juillet');
+            const [saisonCible, setSaisonCible] = useState('Mi-Juillet');
             const [cuissons, setCuissons] = useState({ sans_cuisson: true, four: true, gaziniere: true });
             const [isLoading, setIsLoading] = useState(false);
-            const [error, setError] = useState(null);
 
-            // -- EFFETS (EFFECTS) : Persistence --
-            
-            // Sauvegarder l'historique dès qu'il change
+            // -- EFFETS (EFFECTS) : SAUVEGARDE AUTOMATIQUE --
+
             useEffect(() => {
-                localStorage.setItem(STORAGE_KEY_PLANNING, JSON.stringify(planningHistory));
-            }, [planningHistory]);
+                localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(history));
+            }, [history]);
 
-            // Sauvegarder le prompt dès qu'il change
             useEffect(() => {
                 localStorage.setItem(STORAGE_KEY_PROMPT, generatorPrompt);
             }, [generatorPrompt]);
 
-            // -- LOGIQUE DE GÉNÉRATION (Simulation IA) --
-            
-            const currentPlanning = planningHistory[0] || null;
+            useEffect(() => {
+                localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(coursesChecked));
+            }, [coursesChecked]);
+
+
+            // -- LOGIQUE DE GÉNÉRATION --
+            const currentWeek = history[0] || null;
 
             const handleCuissonChange = (id) => {
                 setCuissons(prev => ({ ...prev, [id]: !prev[id] }));
             };
 
+            const handleCourseToggle = (item) => {
+                setCoursesChecked(prev => ({ ...prev, [item]: !prev[item] }));
+            };
+
             const generateNewWeek = () => {
                 setIsLoading(true);
-                setError(null);
 
-                // 1. Préparer les variables du prompt
+                // 1. Préparer les variables pour le prompt
                 const cuissonsSelectionnees = MODES_CUISSON
                     .filter(m => cuissons[m.id])
                     .map(m => m.label)
                     .join(', ');
 
-                // 2. Construire le prompt final (pour log, ou envoi réel)
+                // 2. Construire le prompt final (pour log/envoi)
                 const finalPrompt = generatorPrompt
-                    .replace('{saison_actuelle}', saison)
+                    .replace('{saison_cible}', saisonCible)
                     .replace('{modes_cuisson}', cuissonsSelectionnees || "Non spécifié");
 
                 console.log("--- PROMPT ENVOYÉ À L'IA ---");
                 console.log(finalPrompt);
 
-                // 3. Simulation de l'appel API (remlacé par une génération locale pour l'exemple)
+                // 3. Simulation de l'appel Gemini (2.5 sec)
                 setTimeout(() => {
-                    try {
-                        // Ici, on simule une réponse de l'IA basée sur ton panier de mi-juillet
-                        // Dans une vraie app, on ferait fetch('https://api.openai.com/...', { body: finalPrompt })
-                        
-                        const simulatedAiResponse = {
-                            saison: saison,
-                            generatedAt: new Date().toISOString(),
-                            planning: [
-                                { jour: "Lundi", midi: "Salade de Pâtes PCU aux Légumes grillés", soir: "Gaspacho Concombre-Avocat (Nico: +oeufs durs)" },
-                                { jour: "Mardi", midi: "Tian de Légumes d'été & Patates", soir: "Curry de Courgettes & Coco (Riz PCU/Riz Nico*)" },
-                                { jour: "Mercredi", midi: "Salade de Pâtes PCU (Reste)", soir: "Gaspacho Concombre-Avocat (Reste)" },
-                                { jour: "Jeudi", midi: "Tian de Légumes d'été (Reste)", soir: "Curry de Courgettes & Coco (Reste)" },
-                                { jour: "Vendredi", midi: "Wok express Courgettes/Carottes (Riz)", soir: "Restes" }
-                            ],
-                            courses: {
-                                legumes: ["Courgettes : 1.5kg", "Tomates : 1kg", "Pommes de terre : 1kg", "Concombre : 2", "Avocat : 2"],
-                                epicerie: ["Pâtes PCU", "Riz PCU", "Lait de coco", "Poudre Curry"],
-                                proteines_nico: ["Blancs de poulet : 400g", "Oeufs : 6"]
-                            },
-                            batchcooking: [
-                                { temps: "T0 (0-20 min)", action: "Découpe", consigne: "Laver et couper tous les légumes." },
-                                { temps: "T20 (20-60 min)", action: "Cuisson Four", consigne: "Tian au four (200°C) pour 40 min." },
-                                { temps: "T30 (30-60 min)", action: "Mijoté", consigne: "Lancer le Curry de Courgettes." },
-                                { temps: "T60 (60-90 min)", action: "Assemblage", consigne: "Cuire les pâtes. Mixer le gaspacho." }
-                            ],
-                            recettes: [
-                                { nom: "Tian de Légumes d'été", base_commune: "Tranches de courgettes, tomates, patates.", pcu_loic: "Huile d'olive, herbes.", nico: "+ Mozzarella avant cuisson." }
-                            ]
-                        };
+                    // Données simulées basées sur ton panier réel
+                    const simulatedAiResponse = {
+                        saison: saisonCible,
+                        generatedAt: new Date().toISOString(),
+                        planning: [
+                            { jour: "Lundi", midi: "Salade de Pâtes PCU aux Légumes grillés", soir: "Gaspacho Concombre-Avocat (Nic: +oeufs durs)" },
+                            { jour: "Mardi", midi: "Tian de Légumes d'été & Patates", soir: "Curry de Courgettes & Coco (Riz PCU/Riz Nico*)" },
+                            { jour: "Mercredi", midi: "Salade de Pâtes PCU (Reste)", soir: "Gaspacho Concombre-Avocat (Reste)" },
+                            { jour: "Jeudi", midi: "Tian de Légumes d'été (Reste)", soir: "Curry de Courgettes & Coco (Reste)" },
+                            { jour: "Vendredi", midi: "Wok express Courgettes/Carottes (Riz)", soir: "Restes" }
+                        ],
+                        courses: {
+                            legumes: ["Courgettes : 1.5kg", "Tomates : 1kg", "Pommes de terre : 1kg", "Concombre : 2", "Avocat : 2", "Carottes: 500g"],
+                            epicerie: ["Pâtes PCU", "Riz PCU", "Lait de coco", "Poudre Curry", "Huile olive"],
+                            proteines_nico: ["Blancs de poulet : 400g", "Oeufs : 6", "Feta: 100g"]
+                        },
+                        batchcooking: [
+                            { temps: "T0 (0-20 min)", action: "Découpe", consigne: "Laver et couper tous les légumes. Allumer le four (200°C)." },
+                            { temps: "T20 (20-60 min)", action: "Cuisson Four", consigne: "Tian au four (40 min)." },
+                            { temps: "T30 (30-60 min)", action: "Mijoté", consigne: "Lancer le Curry de Courgettes." },
+                            { temps: "T60 (60-90 min)", action: "Assemblage", consigne: "Cuire les pâtes PCU. Mixer le gaspacho." }
+                        ],
+                        recettes: [
+                            { nom: "Tian de Légumes d'été", base_commune: "Tranches de courgettes, tomates, patates.", pcu_loic: "Sauce huile d'olive, herbes.", nico: "+ Mozzarella avant cuisson." }
+                        ]
+                    };
 
-                        // 4. Ajouter la nouvelle semaine en tête de l'historique
-                        setPlanningHistory(prev => [simulatedAiResponse, ...prev]);
-                        setActiveTab('planning'); // Basculer sur le planning généré
-                    
-                    } catch (e) {
-                        setError("Erreur lors de la génération. Le format JSON reçu de l'IA était peut-être incorrect.");
-                        console.error(e);
-                    } finally {
-                        setIsLoading(false);
-                    }
-                }, 2500); // Simulation d'un délai de 2.5 secondes
+                    // 4. Mise à jour de l'historique (Nouvelle semaine en premier)
+                    setHistory(prev => [simulatedAiResponse, ...prev]);
+                    setCoursesChecked({}); // Réinitialiser les courses
+                    setIsLoading(false);
+                    setActiveTab('planning'); // Basculer sur le résultat
+                }, 2500);
             };
 
 
-            // -- RENDU INTERFACE (RENDER) --
-
-            const NavItem = ({ id, label, icon }) => (
-                <button 
-                    onClick={() => setActiveTab(id)}
-                    className={`flex items-center space-x-2 pb-3 px-1 border-b-2 transition font-medium text-sm ${activeTab === id ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'}`}
-                >
-                    <span>{icon}</span>
-                    <span>{label}</span>
-                </button>
-            );
+            // -- RENDU INTERFACE --
 
             return (
                 <div className="min-h-screen">
                     <nav className="bg-white border-b border-slate-200 sticky top-0 z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex justify-between h-16 items-center">
-                                <div className="flex items-center">
-                                    <span className="text-2xl mr-2">🥘</span>
-                                    <h1 className="text-xl font-bold text-slate-900">BatchCooking<span className="text-emerald-500 font-light">Pro</span></h1>
+                            <div className="flex justify-between h-20 items-center">
+                                <div className="flex items-center space-x-3">
+                                    {/* Intégration du LOGO fourni */}
+                                    <img src="image_0.png" alt="Logo Cacahuète et Patate" className="h-16 w-16 object-contain rounded-full border shadow-sm"/>
+                                    <div className="flex flex-col">
+                                        <h1 className="text-xl font-bold text-slate-950">Aux fourneaux</h1>
+                                        <p className="text-sm text-emerald-600 font-medium">de cacahuète et patate</p>
+                                    </div>
                                 </div>
-                                <div className="text-xs text-slate-400 flex items-center bg-slate-100 px-3 py-1 rounded-full">
+                                <div className="text-xs text-slate-400 flex items-center bg-slate-100 px-3 py-1.5 rounded-full">
                                     <span className="relative flex h-2 w-2 mr-2">
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                                     </span>
-                                    {planningHistory.length} semaine{planningHistory.length > 1 ? 's' : ''} en mémoire
+                                    {history.length} semaine{history.length > 1 ? 's' : ''} en mémoire
                                 </div>
                             </div>
                         </div>
                     </nav>
 
-                    <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+                    <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8 fade-in">
                         
                         {/* Onglets Principaux */}
-                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 sticky top-16 z-10">
-                            <div className="flex space-x-6 border-b border-slate-100 no-scrollbar overflow-x-auto">
-                                <NavItem id="planning" label="Planning" icon="📅" />
-                                <NavItem id="courses" label="Liste de Courses" icon="🛒" />
-                                <NavItem id="batch" label="Plan de Batch" icon="⏱️" />
-                                <NavItem id="creation" label="Nouvelle Semaine" icon="✨" />
+                        <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 sticky top-20 z-10">
+                            <div className="flex space-x-6 border-b border-slate-100 overflow-x-auto no-scrollbar">
+                                <NavItem id="planning" label="Planning" icon="📅" activeTab={activeTab} setActiveTab={setActiveTab} />
+                                <NavItem id="courses" label="Courses" icon="🛒" activeTab={activeTab} setActiveTab={setActiveTab} />
+                                <NavItem id="batch" label="Plan Batch" icon="⏱️" activeTab={activeTab} setActiveTab={setActiveTab} />
+                                <NavItem id="creation" label="Nouvelle Semaine" icon="✨" activeTab={activeTab} setActiveTab={setActiveTab} />
                             </div>
                         </div>
 
                         {/* Contenu des Onglets */}
                         <div className="space-y-8">
                             
-                            {/* --- ONGLET PLANNING --- */}
+                            {/* PLANNING */}
                             {activeTab === 'planning' && (
                                 <div className="space-y-6 fade-in">
-                                    {!currentPlanning ? (
-                                        <div className="text-center py-20 bg-white rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                                            <div className="text-6xl">🏜️</div>
+                                    {!currentWeek ? (
+                                        <div className="text-center py-24 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                                            <div className="text-7xl">🏜️</div>
                                             <h3 className="text-xl font-bold text-slate-800">Aucun planning en mémoire</h3>
-                                            <p className="text-slate-500 max-w-sm mx-auto">Lance la génération d'une nouvelle semaine pour commencer.</p>
-                                            <button onClick={() => setActiveTab('creation')} className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-semibold shadow-md hover:bg-emerald-700 transition transform active:scale-95">Créer ma première semaine</button>
+                                            <p className="text-slate-500 max-w-sm mx-auto">Lance la génération d'une nouvelle semaine pour commencer tes fourneaux.</p>
+                                            <button onClick={() => setActiveTab('creation')} className="bg-emerald-600 text-white px-8 py-3 rounded-xl font-semibold shadow-md hover:bg-emerald-700 transition transform active:scale-95">Créer ma première semaine</button>
                                         </div>
                                     ) : (
                                         <div className="space-y-6">
-                                            <div className="flex items-center justify-between">
-                                                <h2 className="text-2xl font-bold text-slate-900">📅 Planning : {currentPlanning.saison}</h2>
-                                                <div className="text-xs text-slate-400">Généré le {new Date(currentPlanning.generatedAt).toLocaleDateString()}</div>
+                                            <div className="flex items-center justify-between border-b pb-3">
+                                                <h2 className="text-2xl font-bold text-slate-950">📅 Planning : {currentWeek.saison}</h2>
+                                                <div className="text-xs text-slate-400 bg-white px-3 py-1 rounded-full border">Généré le {new Date(currentWeek.generatedAt).toLocaleDateString()}</div>
                                             </div>
-                                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                            <div className="bg-white p-7 rounded-3xl shadow-sm border border-slate-100">
                                                 <div className="space-y-3">
-                                                    {currentPlanning.planning.map((p, i) => (
-                                                        <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-100 gap-2 transition">
-                                                            <span className="font-bold text-emerald-700 w-28 shrink-0 text-lg">{p.jour}</span>
+                                                    {currentWeek.planning.map((p, i) => (
+                                                        <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl border border-slate-100 gap-2 transition">
+                                                            <span className="font-bold text-emerald-800 w-28 shrink-0 text-lg">{p.jour}</span>
                                                             <div className="text-sm flex-1"><strong>☀️ Midi :</strong> <span className="text-slate-700">{p.midi}</span></div>
                                                             <div className="text-sm flex-1"><strong>🌙 Soir :</strong> <span className="text-slate-700">{p.soir}</span></div>
                                                         </div>
@@ -298,20 +289,27 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
                                 </div>
                             )}
 
-                            {/* --- ONGLET COURSES --- */}
-                            {activeTab === 'courses' && currentPlanning && (
+                            {/* COURSES (Cochables + Mémoire) */}
+                            {activeTab === 'courses' && currentWeek && (
                                 <div className="grid md:grid-cols-3 gap-6 fade-in">
-                                    {[ { title: '🥦 Légumes', data: currentPlanning.courses.legumes, color: 'emerald' },
-                                       { title: '📦 Épicerie', data: currentPlanning.courses.epicerie, color: 'amber' },
-                                       { title: '🥩 Protéines (Nico)', data: currentPlanning.courses.proteines_nico, color: 'rose' }
+                                    {[ { title: '🥦 Légumes', data: currentWeek.courses.legumes, color: 'emerald' },
+                                       { title: '📦 Épicerie', data: currentWeek.courses.epicerie, color: 'amber' },
+                                       { title: '🥩 Protéines (Nico)', data: currentWeek.courses.proteines_nico, color: 'rose' }
                                     ].map(cat => (
-                                        <div key={cat.title} className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-100 border-t-4 border-t-${cat.color}-400`}>
-                                            <h3 className={`text-lg font-bold text-${cat.color}-700 mb-4`}>{cat.title}</h3>
+                                        <div key={cat.title} className={`bg-white p-7 rounded-3xl shadow-sm border border-slate-100 border-t-4 border-t-${cat.color}-400`}>
+                                            <h3 className={`text-xl font-bold text-${cat.color}-800 mb-5`}>{cat.title}</h3>
                                             <ul className="space-y-3">
                                                 {cat.data.map((item, i) => (
-                                                    <li key={i} className="flex items-center text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                        <input type="checkbox" className={`h-4 w-4 rounded border-slate-300 text-${cat.color}-600 focus:ring-${cat.color}-500 mr-3`} />
-                                                        {item}
+                                                    <li key={i} className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                                        <label className="flex items-center text-sm cursor-pointer select-none">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                checked={!!coursesChecked[item]}
+                                                                onChange={() => handleCourseToggle(item)}
+                                                                className={`h-5 w-5 rounded border-slate-300 text-${cat.color}-600 focus:ring-${cat.color}-500 mr-3.5`} 
+                                                            />
+                                                            <span className={coursesChecked[item] ? 'strikethrough' : 'text-slate-700'}>{item}</span>
+                                                        </label>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -320,16 +318,16 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
                                 </div>
                             )}
 
-                            {/* --- ONGLET BATCHCOOKING --- */}
-                            {activeTab === 'batch' && currentPlanning && (
-                                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6 fade-in">
-                                    <h3 className="text-xl font-bold text-slate-900 mb-4">⏱️ Plan d'action : 2h30 Chrono</h3>
+                            {/* BATCH ACTION */}
+                            {activeTab === 'batch' && currentWeek && (
+                                <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6 fade-in">
+                                    <h3 className="text-2xl font-bold text-slate-950 mb-5 border-b pb-3">⏱️ Plan d'action : 2h30 Chrono</h3>
                                     <div className="space-y-4">
-                                        {currentPlanning.batchcooking.map((step, i) => (
-                                            <div key={i} className="flex space-x-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                                <div className="flex-shrink-0 w-24 text-center">
-                                                    <div className="text-xs text-slate-400 font-mono">{step.temps}</div>
-                                                    <div className="text-sm font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full mt-1">{step.action}</div>
+                                        {currentWeek.batchcooking.map((step, i) => (
+                                            <div key={i} className="flex space-x-5 p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                                                <div className="flex-shrink-0 w-28 text-center border-r pr-5">
+                                                    <div className="text-xs text-slate-400 font-mono tracking-wider">{step.temps}</div>
+                                                    <div className="text-sm font-bold text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full mt-2 inline-block">{step.action}</div>
                                                 </div>
                                                 <div className="text-sm text-slate-700 pt-1 flex-1">{step.consigne}</div>
                                             </div>
@@ -338,27 +336,62 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
                                 </div>
                             )}
 
-                            {/* --- ONGLET CRÉATION (AVEC PARAMÈTRES) --- */}
+                            {/* NOUVELLE SEMAINE (INTERFACE GRAPHIQUE RESTAURÉE ET ENRICHIE) */}
                             {activeTab === 'creation' && (
                                 <div className="space-y-8 fade-in">
-                                    <div className="grid md:grid-cols-2 gap-8">
-                                        {/* Formulaire de génération */}
-                                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
-                                            <h2 className="text-2xl font-bold text-slate-900 border-b pb-3">✨ Générer une nouvelle semaine</h2>
-                                            
+                                    <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-sm border border-slate-100 space-y-8">
+                                        <div className="flex items-center justify-between border-b pb-4">
+                                            <h2 className="text-2xl font-bold text-slate-950">✨ Générer une nouvelle semaine</h2>
+                                            {/* Bouton pour afficher/masquer les paramètres */}
+                                            <button 
+                                                onClick={() => setShowPromptEditor(!showPromptEditor)}
+                                                className="flex items-center space-x-2 text-sm text-slate-500 hover:text-emerald-600 border px-4 py-2 rounded-xl transition bg-slate-50"
+                                            >
+                                                <span>{showPromptEditor ? '✅ Masquer' : '⚙️'}</span>
+                                                <span>{showPromptEditor ? 'Valider les paramètres' : 'Paramètres IA'}</span>
+                                            </button>
+                                        </div>
+                                        
+                                        {/* ZONE PARAMÈTRES (PROMPT ÉDITABLE) - Masquable */}
+                                        {showPromptEditor && (
+                                            <div className="space-y-4 p-6 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 fade-in">
+                                                <div className="flex items-center justify-between">
+                                                    <h3 className="text-lg font-bold text-slate-800">⚙️ Consigne (Prompt) de l'IA</h3>
+                                                    <button 
+                                                        onClick={() => { if(confirm("Réinitialiser le prompt par défaut ?")) setGeneratorPrompt(DEFAULT_PROMPT); }}
+                                                        className="text-xs text-slate-500 hover:text-rose-600 font-medium transition"
+                                                    >
+                                                        Réinitialiser par défaut
+                                                    </button>
+                                                </div>
+                                                <p className="text-xs text-slate-600">
+                                                    C'est la règle que suit l'IA. Tu peux la modifier pour ajuster tes préférences alimentaires durablement. Les variables <code className="bg-slate-100 px-1 rounded">{'{saison_cible}'}</code> et <code className="bg-slate-100 px-1 rounded">{'{modes_cuisson}'}</code> seront remplacées automatiquement.
+                                                </p>
+                                                <textarea
+                                                    value={generatorPrompt}
+                                                    onChange={(e) => setGeneratorPrompt(e.target.value)}
+                                                    rows="18"
+                                                    className="w-full p-4 border border-slate-300 rounded-xl font-mono text-xs bg-white focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400"
+                                                />
+                                            </div>
+                                        )}
+
+                                        {/* FORMULAIRE GRAPHIQUE DE GÉNÉRATION (LES ANCIENNES FONCTIONNALITÉS SONT LÀ) */}
+                                        <div className="grid md:grid-cols-2 gap-8">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-medium text-slate-600">🍂 Saison ou Mois cible</label>
+                                                <label className="text-sm font-semibold text-slate-600">🍂 Saison ou Mois cible</label>
                                                 <input 
                                                     type="text" 
-                                                    value={saison}
-                                                    onChange={(e) => setSaison(e.target.value)}
+                                                    value={saisonCible}
+                                                    onChange={(e) => setSaisonCible(e.target.value)}
                                                     placeholder="ex: Mi-Juillet, Octobre..."
-                                                    className="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400"
+                                                    className="w-full p-4 border border-slate-300 rounded-xl bg-slate-50 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400 transition"
                                                 />
                                             </div>
 
+                                            {/* AJOUT : Choix multiples des modes de cuisson */}
                                             <div className="space-y-3">
-                                                <label className="text-sm font-medium text-slate-600">🧙‍♂️ Modes de cuisson souhaités (Choix multiples)</label>
+                                                <label className="text-sm font-semibold text-slate-600">🧙‍♂️ Modes de préparation souhaités (Choix multiples)</label>
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                     {MODES_CUISSON.map(mode => (
                                                         <Checkbox 
@@ -371,32 +404,28 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
                                                     ))}
                                                 </div>
                                             </div>
-
-                                            {error && <div className="p-4 bg-rose-50 text-rose-700 text-sm rounded-xl border border-rose-200">⚠️ {error}</div>}
-
-                                            <button 
-                                                onClick={generateNewWeek}
-                                                disabled={isLoading}
-                                                className={`w-full text-white px-6 py-3 rounded-xl font-bold shadow-md transition transform active:scale-95 flex items-center justify-center space-x-2 ${isLoading ? 'bg-slate-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'}`}
-                                            >
-                                                {isLoading ? (
-                                                    <>
-                                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                        </svg>
-                                                        <span>Génération en cours (via Gemini)...</span>
-                                                    </>
-                                                ) : (
-                                                    <span>Lancer la génération Gemini (Simulée)</span>
-                                                )}
-                                            </button>
                                         </div>
 
-                                        {/* Éditeur de Prompt (Paramètres) */}
-                                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                                            <PromptEditor prompt={generatorPrompt} setPrompt={setGeneratorPrompt} />
-                                        </div>
+                                        <button 
+                                            onClick={generateNewWeek}
+                                            disabled={isLoading}
+                                            className={`w-full text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition transform active:scale-95 flex items-center justify-center space-x-3 text-lg ${isLoading ? 'bg-slate-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'}`}
+                                        >
+                                            {isLoading ? (
+                                                <>
+                                                    <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    <span>Génération Gemini en cours (Simulation)...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span>Lancer la génération Gemini</span>
+                                                    <span>✨</span>
+                                                </>
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
                             )}
@@ -404,15 +433,17 @@ Tu dois répondre UNIQUEMENT avec un objet JSON valide, sans texte avant ou apr�
                         </div>
                     </main>
 
-                    <footer className="mt-20 border-t border-slate-100 py-10 bg-white">
-                        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-slate-400 font-light">
-                            Outil de Batch Cooking intelligent pour Nicolas & Loïc. Les données sont stockées localement dans ton navigateur.
+                    <footer className="mt-20 border-t border-slate-100 py-12 bg-white">
+                        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-slate-400 font-light space-y-2">
+                            <p>Outil de Batch Cooking intelligent pour Nicolas & Loïc.</p>
+                            <p className="text-xs bg-slate-100 inline-block px-3 py-1 rounded-full border">🛡️ Mémoire active : données stockées localement dans ton navigateur.</p>
                         </div>
                     </footer>
                 </div>
             );
         }
 
+        // --- DÉMARRAGE DE L'APP ---
         const container = document.getElementById('root');
         const root = ReactDOM.createRoot(container);
         root.render(<App />);
