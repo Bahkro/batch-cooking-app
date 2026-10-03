@@ -1,395 +1,361 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aux fourneaux de cacahuète et patate</title>
-    <!-- Chargement des bibliothèques nécessaires -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* --- CONFIGURATION DE LA CHARTE GRAPHIQUE (Basée sur le logo) --- */
-        :root {
-            --color-pate: #E29A66; /* Marron clair/pâte du logo */
-            --color-feuille: #254E35; /* Vert sapin foncé du logo */
-            --color-legume: #B14B29; /* Rouge/Orange tian du logo */
-            --color-bg: #FDFBF8; /* Fond crème très clair */
-        }
-
-        body { background-color: var(--color-bg); color: #1a1a1a; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        /* Styles personnalisés Tailwind */
-        .bg-sapin { background-color: var(--color-feuille); }
-        .text-sapin { color: var(--color-feuille); }
-        .border-sapin { border-color: var(--color-feuille); }
-        
-        .bg-tian { background-color: var(--color-legume); }
-        .text-tian { color: var(--color-legume); }
-        
-        .bg-pate { background-color: var(--color-pate); }
-        
-        /* Animations et utilitaires */
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .strikethrough { text-decoration: line-through; color: #a0a0a0; }
-
-        /* Style pour les cartes de plat avec image de fond */
-        .plat-card {
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s;
-        }
-        .plat-card:hover { transform: scale(1.02); }
-        .plat-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            padding: 1rem; color: white;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aux fourneaux de Cacahuète et Patate</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div id="root">
-        <div class="p-12 text-center text-slate-500">Chargement de l'atelier culinaire de Cacahuète et Patate...</div>
-    </div>
+<body class="bg-orange-50 text-slate-800">
+  <div id="root">
+    <div class="p-8 text-center text-slate-500 font-sans">Chargement de l'application...</div>
+  </div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+  <script type="text/babel">
+    const databaseSemaines = [
+      {
+        id: "semaine-automne-racines",
+        titre: "🍂 Automne — Légumes Racines & Douceur",
+        saison: "Automne",
+        styles: ["Réconfortant & Mijoté", "Gratins & Tartes"],
+        planning: [
+          { jour: "Lundi", midi: "🥕 Risotto de carottes au cumin (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates" },
+          { jour: "Mardi", midi: "🥔 Hachis parmentier aux légumes & champignons (+ Viande Nico)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame" },
+          { jour: "Mercredi", midi: "🍲 Daube douce de navets, carottes & patates (Reste)", soir: "🥕 Risotto de carottes au cumin (Reste)" },
+          { jour: "Jeudi", midi: "🥔 Hachis parmentier aux légumes & champignons (Reste)", soir: "🥦 Poêlée rôtie de chou-fleur & carottes au sésame (Reste)" },
+          { jour: "Vendredi", midi: "🥦 Poêlée rôtie de chou-fleur & carottes (+ Paupiette Nico)", soir: "🍲 Daube douce de navets, carottes & patates (Reste)" }
+        ],
+        courses: {
+          legumes: ["Pommes de terre : 2,3 kg", "Carottes : 2,5 kg", "Navets : 1 kg", "Chou-fleur : 1,2 kg", "Champignons : 250 g", "Ail, Oignons, Persil, Thym"],
+          epicerie: ["Riz Arborio (Nico) / PCU (Loïc)", "Riz classique (Nico) / PCU (Loïc)", "Concentré de tomate", "Cumin, Sésame, Huile d'olive"],
+          proteines: ["Paupiettes (Nico) : 2 à 4 pcs", "Viande hachée / Thon (Nico) : 250 g", "Parmesan râpé"]
+        },
+        organisation: [
+          { temps: "0 - 20 min", titre: "Découpes & Four", desc: "Tailler le chou-fleur et 1 kg de carottes. Enfourner la poêlée rôtie à 200°C pendant 25 min avec huile d'olive et sésame." },
+          { temps: "20 - 50 min", titre: "Les Casseroles", desc: "Lancer la daube douce (oignons, navets, carottes, concentré de tomate et bouillon). Lancer la cuisson des pommes de terre pour la purée." },
+          { temps: "50 - 1h20", titre: "Assemblage Hachis & Risotto", desc: "Écraser la purée, faire revenir les champignons. Monter le hachis parmentier. Lancer la base de risotto aux carottes râpées." },
+          { temps: "1h20 - 2h00", titre: "Cuisson Protéines & Féculents PCU", desc: "Poêler les paupiettes et la viande hachée de Nicolas à part. Cuire le riz classique et les féculents spécifiquement adaptés pour Loïc." },
+          { temps: "2h00 - 2h30", titre: "Conditionnement", desc: "Répartir l'ensemble des plats dans les boîtes hermétiques pour la semaine et laisser refroidir." }
+        ],
+        recettes: [
+          { titre: "1. Risotto de carottes au cumin", pas: "Faites rôtir des dés de carottes au cumin. Lancez la base de risotto avec l'oignon et le bouillon. Incorporez les carottes et le persil en fin de cuisson.", nico: "Ajouter du parmesan râpé et servir avec une paupiette poêlée.", loic: "Utiliser exclusivement le substitut de riz spécial PCU." },
+          { titre: "2. Daube douce de navets & carottes", pas: "Faites revenir oignons, navets et carottes. Ajoutez le concentré de tomate, le thym, l'ail et mouillez au bouillon. Laissez mijoter à feu doux 40 min.", nico: "Accompagner d'une portion de paupiette ou viande de votre choix.", loic: "Déguster nature ou avec un supplément de pommes de terre vapeur." },
+          { titre: "3. Hachis Parmentier aux légumes", pas: "Faites revenir les champignons avec l'ail. Préparez une purée de pommes de terre bien lisse. Éparpillez les légumes puis couvrez de purée.", nico: "Ajouter de la viande hachée ou du thon au fond du plat et gratiner au parmesan.", loic: "Conserver la version 100% légumes et purée (sans aucune protéine)." },
+          { titre: "4. Poêlée rôtie chou-fleur & carottes", pas: "Détaillez le chou-fleur en fleurettes et les carottes en rondelles. Enfournez à 200°C pendant 25 min avec de l'huile d'olive et des graines de sésame.", nico: "Servir accompagné de riz classique et d'une paupiette.", loic: "Servir accompagné du substitut de riz/pâtes PCU." }
+        ]
+      }
+    ];
 
-        // --- ☁️ CONFIGURATION DE LA MÉMOIRE PARTAGÉE (JSONBin.io) ---
-        // Permet l'accès PC + Smartphone. Remplacez par vos propres clés si nécessaire.
-        const JSONBIN_API_KEY = "$2a$10$wTf/M4e.K4YvJ3T/0k4MFeYkM.wF5k6/2e2m1e2m1e2m1e2m1e2m."; // CLÉ API FICTIVE - À COMPLÉTER
-        const JSONBIN_BIN_ID = "669a1e2e1e2m1e2m1e2m1e2m"; // BIN ID FICTIF - À COMPLÉTER
-        const API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+    const propositionsRemplacement = [
+      { nom: "🥧 Tarte fine aux poireaux & pommes", desc: "Poireaux fondants & tranches de pommes rôties." },
+      { nom: "🍛 Curry de patates douces & coco", desc: "Douceur de coco, patates douces et épices douces." },
+      { nom: "🥘 Blanquette printanière de légumes", desc: "Carottes, navets et courgettes nappés d'une sauce crémeuse." },
+      { nom: "🌮 Chili Sin Carne aux poivrons & maïs", desc: "Poivrons, maïs, haricots rouges et coulis de tomate (sans lentilles)." },
+      { nom: "🥗 Salade croquante concombre & maïs", desc: "Concombres, radis, maïs et vinaigrette aux herbes." },
+      { nom: "🍆 Ratatouille douce aux courgettes", desc: "Courgettes, poivrons et tomates confites à l'huile d'olive." }
+    ];
 
-        // --- 🖼️ BASE DE DONNÉES D'IMAGES ILLUSTRATIVES (Simulées) ---
-        const IMAGE_DB = {
-            "Tian de Légumes d'été": "https://images.unsplash.com/photo-1598511757337-fe2cafc31ba0?q=80&w=400",
-            "Gaspacho Concombre-Avocat": "https://images.unsplash.com/photo-1596463939361-b45946396e39?q=80&w=400",
-            "Salade de Pâtes aux Légumes grillés": "https://images.unsplash.com/photo-1551248429-40975aa4de74?q=80&w=400",
-            "Curry de Courgettes & Coco": "https://images.unsplash.com/photo-1628147239616-16060c4a4538?q=80&w=400",
-            "Wok express Courgettes/Carottes": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400",
-            "default": "https://images.unsplash.com/photo-1490645935467-bf9352fe0e87?q=80&w=400"
-        };
+    const modesPreparationDisponibles = [
+      "Sans cuisson", "Gazinière", "Four", "Vapeur", "Friteuse", "Mijoteuse", "Air Fryer"
+    ];
 
-        const getPlatImage = (nomPlat) => IMAGE_DB[nomPlat] || IMAGE_DB["default"];
+    function App() {
+      const [tab, setTab] = React.useState('planning');
+      const [semaineData, setSemaineData] = React.useState(databaseSemaines[0]);
+      const [historique, setHistorique] = React.useState([
+        { ...databaseSemaines[0], dateAjout: "Semaine initiale" }
+      ]);
+      const [coursesCochees, setCoursesCochees] = React.useState({});
+      const [selectedSlot, setSelectedSlot] = React.useState(null);
+      const [newRecipeChoice, setNewRecipeChoice] = React.useState(propositionsRemplacement[0].nom);
+      
+      // États pour l'onglet "Nouvelle Semaine"
+      const [modesCoches, setModesCoches] = React.useState([]);
+      const [promptText, setPromptText] = React.useState("");
 
-        // --- ⚙️ DONNÉES DE CONFIGURATION ---
+      React.useEffect(() => {
+        const modesStr = modesCoches.length > 0 ? modesCoches.join(', ') : 'Libre';
+        setPromptText(`Tu es un assistant de batch cooking. Génère une nouvelle semaine d'organisation (2h30 max) au format JSON.
+Contraintes strictes :
+- Le menu doit être adapté pour Nicolas (sans lentilles) et Loïc (régime PCU strict).
+- Modes de préparation privilégiés pour cette semaine : ${modesStr}.
+- Fournir 5 jours de repas (Midi/Soir), la liste de courses, l'organisation chronologique et les 4 recettes de base avec les déclinaisons Nico/Loïc.`);
+      }, [modesCoches]);
 
-        const STYLES_PLATS = [
-            { id: 'mijote', label: '🥘 Mijoté & Réconfortant', icon: '🥘' },
-            { id: 'four', label: '👨‍🍳 Cuit au Four & Gratiné', icon: '👨‍🍳' },
-            { id: 'poelee', label: '🔥 Poêlée rapide & Wok', icon: '🔥' },
-            { id: 'salade', label: '🥗 Salade fraîche & Assemblage', icon: '🥗' }
-        ];
+      const toggleCourse = (item) => {
+        setCoursesCochees(prev => ({ ...prev, [item]: !prev[item] }));
+      };
 
-        // --- 🧩 COMPOSANTS D'INTERFACE ---
-
-        const NavItem = ({ id, label, icon, activeTab, setActiveTab }) => (
-            <button 
-                onClick={() => setActiveTab(id)}
-                className={`flex items-center space-x-2.5 pb-3.5 px-1 border-b-2 transition font-semibold text-sm shrink-0 ${activeTab === id ? 'border-sapin text-sapin' : 'border-transparent text-slate-500 hover:text-sapin hover:border-slate-300'}`}
-            >
-                <span className="text-base">{icon}</span>
-                <span>{label}</span>
-            </button>
+      const toggleMode = (mode) => {
+        setModesCoches(prev => 
+          prev.includes(mode) ? prev.filter(m => m !== mode) : [...prev, mode]
         );
+      };
 
-        // Carte de plat avec image et overlay
-        const PlatCard = ({ jour, moment, nom, NicoAdd }) => (
-            <div className="plat-card rounded-2xl shadow-sm border border-slate-100 h-36" style={{backgroundImage: `url(${getPlatImage(nom)})`}}>
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-sapin shadow-sm">
-                    {jour} - {moment}
-                </div>
-                <div className="plat-overlay">
-                    <h4 className="font-bold text-base leading-tight">{nom}</h4>
-                    {NicoAdd && <p className="text-xs text-pate font-medium mt-1">Nic : {NicoAdd}</p>}
-                </div>
+      const validerNouvelleSemaine = () => {
+        alert("En production, ce prompt serait envoyé à l'IA :\n\n" + promptText);
+        // Simulation d'une nouvelle semaine générée
+        setTab('planning');
+      };
+
+      const rechargerSemaineHistorique = (sem) => {
+        setSemaineData(sem);
+        setCoursesCochees({});
+        setTab('planning');
+        alert(`🔄 Le menu "${sem.titre}" a été rechargé !`);
+      };
+
+      const confirmerRemplacement = () => {
+        if (!selectedSlot) return;
+        const newPlanning = [...semaineData.planning];
+        newPlanning[selectedSlot.dayIndex][selectedSlot.type] = newRecipeChoice;
+        const nouvelleSem = { ...semaineData, planning: newPlanning };
+        setSemaineData(nouvelleSem);
+        setHistorique(prev => [
+          { ...nouvelleSem, dateAjout: `Modifiée le ${new Date().toLocaleDateString('fr-FR')}` },
+          ...prev
+        ]);
+        setSelectedSlot(null);
+      };
+
+      return (
+        <div className="max-w-4xl mx-auto p-4 space-y-6 font-sans">
+          <header className="text-center my-6">
+            <img 
+              src="Logo aux fourneaux de cacahuère et patate_2.jpg" 
+              alt="Logo Aux Fourneaux de Cacahuète et Patate" 
+              className="mx-auto h-40 object-contain drop-shadow-md mb-4"
+            />
+            <h1 className="text-4xl font-extrabold text-amber-900 tracking-tight">Aux fourneaux de Cacahuète et Patate</h1>
+            <p className="text-amber-700/80 mt-2 font-medium">Adapté pour Nicolas (Sans lentilles) & Loïc (Régime PCU)</p>
+            <div className="mt-3 inline-block bg-orange-200 text-orange-900 font-bold px-4 py-1.5 rounded-full text-sm shadow-sm border border-orange-300">
+              Menu actuel : {semaineData.titre}
             </div>
-        );
+          </header>
 
-        // --- 🚀 APPLICATION PRINCIPALE ---
+          <div className="flex flex-wrap justify-center gap-2 border-b border-orange-200 pb-4">
+            <button onClick={() => setTab('planning')} className={`px-4 py-2 rounded-lg font-medium transition shadow-sm ${tab === 'planning' ? 'bg-amber-700 text-white' : 'bg-white text-slate-700 hover:bg-orange-50'}`}>📅 Planning</button>
+            <button onClick={() => setTab('organisation')} className={`px-4 py-2 rounded-lg font-medium transition shadow-sm ${tab === 'organisation' ? 'bg-amber-700 text-white' : 'bg-white text-slate-700 hover:bg-orange-50'}`}>⏱️ Organisation (2h30)</button>
+            <button onClick={() => setTab('recettes')} className={`px-4 py-2 rounded-lg font-medium transition shadow-sm ${tab === 'recettes' ? 'bg-amber-700 text-white' : 'bg-white text-slate-700 hover:bg-orange-50'}`}>🍳 Recettes</button>
+            <button onClick={() => setTab('courses')} className={`px-4 py-2 rounded-lg font-medium transition shadow-sm ${tab === 'courses' ? 'bg-amber-700 text-white' : 'bg-white text-slate-700 hover:bg-orange-50'}`}>🛒 Courses</button>
+            <button onClick={() => setTab('historique')} className={`px-4 py-2 rounded-lg font-medium transition shadow-sm ${tab === 'historique' ? 'bg-stone-700 text-white' : 'bg-white text-stone-700 hover:bg-stone-100'}`}>📚 Historique ({historique.length})</button>
+            <button onClick={() => setTab('gemini')} className={`px-4 py-2 rounded-lg font-bold transition shadow-sm ${tab === 'gemini' ? 'bg-orange-600 text-white shadow-inner' : 'bg-orange-100 text-orange-800 border border-orange-300 hover:bg-orange-200'}`}>✨ Nouvelle Semaine</button>
+          </div>
 
-        function App() {
-            // -- ÉTATS (STATE) --
-            const [activeTab, setActiveTab] = useState('planning');
-            const [history, setHistory] = useState([]); // Mémoire partagée
-            const [isLoading, setIsLoading] = useState(false);
-            const [apiError, setApiError] = useState(null);
+          {/* Planning */}
+          {tab === 'planning' && (
+            <section className="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 space-y-4">
+              <div className="flex justify-between items-center border-b border-orange-100 pb-2">
+                <h2 className="text-xl font-bold text-amber-800">📅 Planning de la Semaine</h2>
+                <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded font-medium">Cliquez sur un repas pour le modifier</span>
+              </div>
+              <div className="grid gap-3">
+                {semaineData.planning.map((p, index) => (
+                  <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-orange-50/50 rounded-xl border border-orange-100 gap-2">
+                    <span className="font-bold text-amber-900 w-24 shrink-0">{p.jour}</span>
+                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'midi', oldTitle: p.midi })} className="text-sm cursor-pointer hover:bg-white p-2 rounded-lg transition flex-1 border border-transparent hover:border-orange-200 hover:shadow-sm">
+                      <strong className="text-amber-700">Midi :</strong> {p.midi}
+                    </div>
+                    <div onClick={() => setSelectedSlot({ dayIndex: index, type: 'soir', oldTitle: p.soir })} className="text-sm cursor-pointer hover:bg-white p-2 rounded-lg transition flex-1 border border-transparent hover:border-orange-200 hover:shadow-sm">
+                      <strong className="text-amber-700">Soir :</strong> {p.soir}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-            // États formulaire
-            const [saisonCible, setSaisonCible] = useState('Mi-Juillet');
-            const [stylePlat, setStylePlat] = useState('four'); // Nouveau : Style de plat
+          {/* Organisation */}
+          {tab === 'organisation' && (
+            <section className="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 space-y-6">
+              <h2 className="text-xl font-bold text-amber-800 border-b border-orange-100 pb-2">⏱️ Déroulé de la Session (2h30)</h2>
+              <div className="space-y-4">
+                {semaineData.organisation.map((item, i) => (
+                  <div key={i} className="flex gap-4 p-4 bg-orange-50/50 rounded-xl border border-orange-100">
+                    <span className="font-bold text-amber-800 bg-orange-200 px-3 py-1 rounded-lg text-xs self-start shrink-0">{item.temps}</span>
+                    <div>
+                      <h3 className="font-bold text-amber-950 text-sm">{item.titre}</h3>
+                      <p className="text-sm text-slate-700 mt-1">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-            // -- ☁️ LOGIQUE DE MÉMOIRE PARTAGÉE (API JSONBin) --
+          {/* Recettes */}
+          {tab === 'recettes' && (
+            <section className="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 space-y-6">
+              <h2 className="text-xl font-bold text-amber-800 border-b border-orange-100 pb-2">🍳 Fiches des 4 Recettes</h2>
+              <div className="grid gap-6">
+                {semaineData.recettes.map((r, i) => (
+                  <div key={i} className="border border-orange-100 rounded-xl p-5 bg-orange-50/30 space-y-3">
+                    <h3 className="text-lg font-bold text-amber-900 border-b border-orange-200 pb-1">{r.titre}</h3>
+                    <p className="text-sm text-slate-700"><strong>Préparation :</strong> {r.pas}</p>
+                    <div className="grid sm:grid-cols-2 gap-3 pt-2">
+                      <div className="bg-rose-50 p-3 rounded-lg border border-rose-100 text-xs text-rose-900"><strong>🥩 Option Nicolas :</strong> {r.nico}</div>
+                      <div className="bg-emerald-50 p-3 rounded-lg border border-emerald-100 text-xs text-emerald-900"><strong>🥗 Option Loïc (PCU) :</strong> {r.loic}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-            // 1. Charger les données au démarrage
-            useEffect(() => {
-                const fetchData = async () => {
-                    setIsLoading(true);
-                    try {
-                        const response = await fetch(API_URL, {
-                            method: 'GET',
-                            headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                        });
-                        if (!response.ok) throw new Error('Échec du chargement de la mémoire cloud.');
-                        const data = await response.json();
-                        setHistory(data.record.history || []);
-                    } catch (error) {
-                        console.error(error);
-                        setApiError("Impossible d'accéder à la mémoire partagée. L'historique n'est pas disponible.");
-                    } finally {
-                        setIsLoading(false);
-                    }
-                };
-                fetchData();
-            }, []);
-
-            // 2. Sauvegarder les données dans le cloud
-            const saveToCloud = async (newHistory) => {
-                try {
-                    const response = await fetch(API_URL, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Master-Key': JSONBIN_API_KEY
-                        },
-                        body: JSON.stringify({ history: newHistory })
-                    });
-                    if (!response.ok) throw new Error('Échec de la sauvegarde cloud.');
-                } catch (error) {
-                    console.error(error);
-                    alert("Erreur de sauvegarde synchro. Les modifications ne seront pas visibles sur les autres appareils.");
-                }
-            };
-
-            // -- LOGIQUE DE GÉNÉRATION SIMULÉE --
-            const currentWeek = history[0] || null;
-
-            const generateNewWeek = () => {
-                setIsLoading(true);
-                setApiError(null);
-
-                // Simulation de l'appel Gemini (Intégrant saison + style de plat)
-                setTimeout(() => {
-                    // Données simulées basées sur le panier réel
-                    const simulatedAiResponse = {
-                        saison: saisonCible,
-                        generatedAt: new Date().toISOString(),
-                        planning: [
-                            { jour: "Lundi", midi: "Salade de Pâtes aux Légumes grillés", nico: "+oeufs durs", NicoAdd: "+Oeufs durs" },
-                            { jour: "Lundi", soir: "Gaspacho Concombre-Avocat", nico: "+jambon cru", NicoAdd: "+Jambon cru" },
-                            { jour: "Mardi", midi: "Tian de Légumes d'été", nico: "+feta", NicoAdd: "+Feta" },
-                            { jour: "Mardi", soir: "Curry de Courgettes & Coco", nico: "+poulet", NicoAdd: "+Poulet" },
-                            { jour: "Mercredi", midi: "Salade de Pâtes (Reste)", nico: "", NicoAdd: "" },
-                            { jour: "Mercredi", soir: "Gaspacho Concombre-Avocat (Reste)", nico: "", NicoAdd: "" },
-                            { jour: "Jeudi", midi: "Tian de Légumes d'été (Reste)", nico: "", NicoAdd: "" },
-                            { jour: "Jeudi", soir: "Curry de Courgettes & Coco (Reste)", nico: "", NicoAdd: "" },
-                            { jour: "Vendredi", midi: "Wok express Courgettes/Carottes", nico: "+crevettes", NicoAdd: "+Crevettes" },
-                            { jour: "Vendredi", soir: "Restes", nico: "", NicoAdd: "" }
-                        ],
-                        courses: {
-                            legumes: ["Courgettes : 1.5kg", "Tomates : 1kg", "Concombre : 2", "Avocat : 2", "Carottes: 500g", "Oignon rouge : 1"],
-                            epicerie: ["Pâtes (Nic/Loïc)", "Riz (Nic/Loïc)", "Lait de coco", "Curry", "Huile olive", "Menthe fraîche"],
-                            proteines_nico: ["Poulet : 400g", "Oeufs : 6", "Feta: 100g", "Jambon cru : 4 tranches"]
-                        },
-                        batchcooking: [
-                            { temps: "T0 (0-20 min)", action: "Découpe", consigne: "Couper tous les légumes. Allumer le four (200°C)." },
-                            { temps: "T20 (20-60 min)", action: "Cuisson Four", consigne: "Enfourner le Tian et les légumes à griller pour la salade." },
-                            { temps: "T30 (30-60 min)", action: "Mijoté", consigne: "Lancer le Curry de Courgettes." },
-                            { temps: "T60 (60-90 min)", action: "Assemblage", consigne: "Cuire les pâtes et le riz. Mixer le gaspacho." }
-                        ],
-                        recettes: [
-                            { nom: "Tian de Légumes d'été", etapes: ["Trancher courgettes, tomates.", "Ranger en rosace dans un plat.", "Arroser d'huile, ail, herbes.", "Cuire 45 min."] },
-                            { nom: "Gaspacho Concombre-Avocat", etapes: ["Peler concombre, évider avocat.", "Mixer avec bouillon, menthe, citron.", "Réserver au frais."] },
-                            { nom: "Curry de Courgettes & Coco", etapes: ["Faire revenir oignon, ail.", "Ajouter dés de courgettes, curry.", "Verser lait de coco.", "Mijoter 20 min."] }
-                        ]
-                    };
-
-                    const newHistory = [simulatedAiResponse, ...history];
-                    setHistory(newHistory);
-                    saveToCloud(newHistory); // Sauvegarde cloud
-                    setIsLoading(false);
-                    setActiveTab('planning');
-                }, 2000);
-            };
-
-            // -- RENDU INTERFACE --
-
-            return (
-                <div className="min-h-screen">
-                    {/* Header basè sur le logo */}
-                    <nav className="bg-white border-b border-slate-100 sticky top-0 z-20">
-                        <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
-                            <div className="flex items-center space-x-4">
-                                <img src="image_0.png" alt="Logo Cacahuète et Patate" className="h-16 w-16 object-contain rounded-full border border-slate-100 shadow-sm p-1"/>
-                                <div className="flex flex-col">
-                                    <h1 className="text-2xl font-black text-sapin tracking-tighter">Aux fourneaux</h1>
-                                    <p className="text-sm text-tian font-bold">de cacahuète et patate</p>
-                                </div>
-                            </div>
-                            <div className="text-xs text-slate-400 flex items-center bg-slate-50 px-4 py-2 rounded-full border border-slate-100 font-medium">
-                                <span className="relative flex h-2 w-2 mr-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tian opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-tian"></span>
-                                </span>
-                                Cloud actif ({history.length} semaines synchronisées)
-                            </div>
-                        </div>
-                    </nav>
-
-                    <main className="max-w-7xl mx-auto p-5 md:p-8 space-y-8 fade-in">
-                        
-                        {/* Barre d'onglets (Basée sur l'ancienne version) */}
-                        <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 sticky top-[97px] z-10">
-                            <div className="flex space-x-7 border-b border-slate-100 overflow-x-auto no-scrollbar">
-                                <NavItem id="planning" label="Planning de la semaine" icon="📅" activeTab={activeTab} setActiveTab={setActiveTab} />
-                                <NavItem id="courses" label="Liste des courses" icon="🛒" activeTab={activeTab} setActiveTab={setActiveTab} />
-                                <NavItem id="batch" label="Plan d'action Batch" icon="⏱️" activeTab={activeTab} setActiveTab={setActiveTab} />
-                                <NavItem id="recettes" label="Recettes détaillées" icon="📖" activeTab={activeTab} setActiveTab={setActiveTab} />
-                                <NavItem id="creation" label="Nouvelle semaine" icon="✨" activeTab={activeTab} setActiveTab={setActiveTab} />
-                            </div>
-                        </div>
-
-                        {apiError && <div className="bg-red-50 text-red-700 p-4 rounded-2xl border border-red-200 text-sm font-medium">{apiError}</div>}
-
-                        {/* Contenu des Onglets */}
-                        <div className="space-y-8">
-                            
-                            {/* 📅 PLANNING AVEC IMAGES DE PLATS */}
-                            {activeTab === 'planning' && (
-                                <div className="space-y-6 fade-in">
-                                    {!currentWeek ? (
-                                        <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                                            <div className="text-6xl">🏜️</div>
-                                            <h3 className="text-xl font-bold text-sapin">Aucun planning synchronisé</h3>
-                                            <p className="text-slate-500 max-w-sm mx-auto text-sm">Générez une nouvelle semaine pour commencer.</p>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-6">
-                                            <h2 className="text-2xl font-extrabold text-sapin tracking-tight">📅 Votre Semaine : {currentWeek.saison}</h2>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                                {/* On sépare midi et soir pour l'affichage image */}
-                                                {currentWeek.planning.filter(p => p.nom !== "Restes").map((p, i) => (
-                                                    <PlatCard key={i} jour={p.jour} moment={p.midi ? "Midi" : "Soir"} nom={p.midi || p.soir} NicoAdd={p.NicoAdd} />
-                                                ))}
-                                                {/* Cas spécial pour les restes du vendredi soir */}
-                                                <div className="bg-slate-100 rounded-2xl h-36 flex items-center justify-center border border-slate-200">
-                                                    <span className="text-sm font-bold text-slate-500">Vendredi Soir - Restes</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {/* 🛒 COURSES (Repris de l'ancienne version) */}
-                            {activeTab === 'courses' && currentWeek && (
-                                <div className="grid md:grid-cols-3 gap-6 fade-in">
-                                    {[ { title: '🥦 Légumes frais', data: currentWeek.courses.legumes, color: 'feuille' },
-                                       { title: '📦 Épicerie base', data: currentWeek.courses.epicerie, color: 'pate' },
-                                       { title: '🥩 Pour Nicolas', data: currentWeek.courses.proteines_nico, color: 'legume' }
-                                    ].map(cat => (
-                                        <div key={cat.title} className="bg-white p-7 rounded-3xl shadow-sm border border-slate-100">
-                                            <h3 className="text-lg font-extrabold mb-5" style={{color: `var(--color-${cat.color})`}}>{cat.title}</h3>
-                                            <ul className="space-y-3">
-                                                {cat.data.map((item, i) => (
-                                                    <li key={i} className="flex items-center text-sm text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                        <input type="checkbox" className="h-4 w-4 rounded border-slate-300 mr-3.5 focus:ring-0"/>
-                                                        <span>{item}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {/* ⏱️ PLAN BATCH (Repris de l'ancienne version) */}
-                            {activeTab === 'batch' && currentWeek && (
-                                <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6 fade-in">
-                                    <h3 className="text-xl font-extrabold text-sapin mb-5">⏱️ Votre session de 2h30 Chrono</h3>
-                                    <div className="space-y-4">
-                                        {currentWeek.batchcooking.map((step, i) => (
-                                            <div key={i} className="flex items-start space-x-5 p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                                                <div className="flex-shrink-0 w-24 text-center">
-                                                    <div className="text-xs text-slate-400 font-mono tracking-wider">{step.temps}</div>
-                                                    <div className="text-xs font-bold bg-tian text-white px-3 py-1.5 rounded-full mt-2 inline-block">{step.action}</div>
-                                                </div>
-                                                <div className="text-sm text-slate-700 pt-0.5">{step.consigne}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* 📖 RECETTES DÉTAILLÉES (RESTAURÉ) */}
-                            {activeTab === 'recettes' && currentWeek && (
-                                <div className="space-y-6 fade-in">
-                                    <h2 className="text-2xl font-extrabold text-sapin tracking-tight">📖 Guide de préparation</h2>
-                                    {currentWeek.recettes.map((recette, i) => (
-                                        <div key={i} className="bg-white p-7 rounded-3xl shadow-sm border border-slate-100 space-y-4">
-                                            <div className="flex items-center space-x-4">
-                                                <img src={getPlatImage(recette.nom)} className="h-12 w-12 rounded-xl object-cover"/>
-                                                <h3 className="text-lg font-bold text-sapin">{recette.nom}</h3>
-                                            </div>
-                                            <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700 pl-2">
-                                                {recette.etapes.map((etape, j) => <li key={j}>{etape}</li>)}
-                                            </ol>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {/* ✨ NOUVELLE SEMAINE (AVEC CHOIX DE STYLE DE PLAT) */}
-                            {activeTab === 'creation' && (
-                                <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100 space-y-8 fade-in">
-                                    <h2 className="text-2xl font-extrabold text-sapin tracking-tight">✨ Concevoir votre prochaine semaine culinaire</h2>
-                                    <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-slate-600">🍂 Saison cible (ou mois)</label>
-                                            <input type="text" value={saisonCible} onChange={(e) => setSaisonCible(e.target.value)} className="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 focus:ring-1 focus:ring-pate focus:border-pate"/>
-                                        </div>
-                                        {/* NOUVEAU : Choix de style de plat */}
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-slate-600">🧙‍♂️ Style de plats souhaité</label>
-                                            <select value={stylePlat} onChange={(e) => setStylePlat(e.target.value)} className="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 focus:ring-1 focus:ring-pate focus:border-pate appearance-none">
-                                                {STYLES_PLATS.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <button 
-                                        onClick={generateNewWeek}
-                                        disabled={isLoading}
-                                        className={`w-full text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition flex items-center justify-center space-x-3 ${isLoading ? 'bg-slate-400 cursor-not-allowed' : 'bg- sapin hover:bg- FeuilleDoree'}`}
-                                        style={!isLoading ? {backgroundColor: 'var(--color-feuille)'} : {}}
-                                    >
-                                        {isLoading ? <span>Synchronisation Cloud & IA...</span> : <span>Lancer l'atelier culinaire Gemini</span>}
-                                        <span className="text-lg">✨</span>
-                                    </button>
-                                </div>
-                            )}
-
-                        </div>
-                    </main>
-
-                    <footer className="mt-16 border-t border-slate-100 py-10 bg-white">
-                        <div className="max-w-7xl mx-auto px-5 text-center text-xs text-slate-400 font-medium">
-                            Conçu avec amour pour Nicolas & Loïc par Gemini • Mémoire cloud partagée activée.
-                        </div>
-                    </footer>
+          {/* Courses */}
+          {tab === 'courses' && (
+            <section className="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 space-y-6">
+              <div className="flex justify-between items-center border-b border-orange-100 pb-2">
+                <h2 className="text-xl font-bold text-amber-800">🛒 Liste de Courses</h2>
+                <span className="text-xs text-slate-500">Cochez les ingrédients achetés</span>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="bg-green-50/50 p-4 rounded-xl border border-green-100">
+                  <h3 className="font-bold text-green-800 mb-2">🥦 Légumes</h3>
+                  <div className="text-sm space-y-2">
+                    {semaineData.courses.legumes.map((item, i) => (
+                      <label key={i} className="flex items-start gap-2 cursor-pointer select-none">
+                        <input type="checkbox" checked={!!coursesCochees[item]} onChange={() => toggleCourse(item)} className="mt-1 rounded text-green-600 focus:ring-green-500" />
+                        <span className={coursesCochees[item] ? "line-through text-slate-400" : "text-slate-700"}>{item}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
-            );
-        }
+                <div className="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                  <h3 className="font-bold text-amber-800 mb-2">📦 Épicerie</h3>
+                  <div className="text-sm space-y-2">
+                    {semaineData.courses.epicerie.map((item, i) => (
+                      <label key={i} className="flex items-start gap-2 cursor-pointer select-none">
+                        <input type="checkbox" checked={!!coursesCochees[item]} onChange={() => toggleCourse(item)} className="mt-1 rounded text-amber-600 focus:ring-amber-500" />
+                        <span className={coursesCochees[item] ? "line-through text-slate-400" : "text-slate-700"}>{item}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-rose-50/50 p-4 rounded-xl border border-rose-100">
+                  <h3 className="font-bold text-rose-800 mb-2">🥩 Protéines (Nico)</h3>
+                  <div className="text-sm space-y-2">
+                    {semaineData.courses.proteines.map((item, i) => (
+                      <label key={i} className="flex items-start gap-2 cursor-pointer select-none">
+                        <input type="checkbox" checked={!!coursesCochees[item]} onChange={() => toggleCourse(item)} className="mt-1 rounded text-rose-600 focus:ring-rose-500" />
+                        <span className={coursesCochees[item] ? "line-through text-slate-400" : "text-slate-700"}>{item}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
 
-        const container = document.getElementById('root');
-        const root = ReactDOM.createRoot(container);
-        root.render(<App />);
-    </script>
+          {/* Nouvelle Semaine (Gemini) */}
+          {tab === 'gemini' && (
+            <section className="bg-white p-6 rounded-2xl shadow-md border-2 border-orange-200 space-y-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-bl-lg">Générateur IA</div>
+              <h2 className="text-2xl font-bold text-orange-700 border-b border-orange-100 pb-2">✨ Créer une nouvelle semaine</h2>
+              
+              <div className="space-y-5">
+                <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                  <h3 className="font-bold text-amber-900 mb-3">1. Modes de préparation à privilégier :</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {modesPreparationDisponibles.map(mode => (
+                      <label key={mode} className="flex items-center gap-2 cursor-pointer bg-white px-3 py-2 rounded-lg border border-orange-200 hover:border-orange-400 transition shadow-sm">
+                        <input 
+                          type="checkbox" 
+                          checked={modesCoches.includes(mode)}
+                          onChange={() => toggleMode(mode)} 
+                          className="rounded text-orange-600 focus:ring-orange-500 w-4 h-4" 
+                        />
+                        <span className="text-sm font-medium text-slate-700">{mode}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-stone-50 p-4 rounded-xl border border-stone-200">
+                  <div className="flex justify-between items-end mb-2">
+                    <h3 className="font-bold text-stone-800">2. Paramètres de l'outil (Prompt IA) :</h3>
+                    <span className="text-xs text-stone-500 font-medium">Éditable librement</span>
+                  </div>
+                  <textarea 
+                    className="w-full h-40 p-3 border border-stone-300 rounded-lg text-sm text-stone-700 font-mono focus:ring-orange-500 focus:border-orange-500 shadow-inner"
+                    value={promptText}
+                    onChange={(e) => setPromptText(e.target.value)}
+                  />
+                  <p className="text-xs text-stone-500 mt-2">Ce texte est le cœur du moteur. Corrigez-le si l'IA génère des erreurs de régime ou de structure avec le temps.</p>
+                </div>
+                
+                <button onClick={validerNouvelleSemaine} className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl transition w-full shadow-md text-lg">
+                  🚀 Générer le Menu avec l'IA
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* Historique - Reconstruction complète de l'historique qui était coupé */}
+          {tab === 'historique' && (
+            <section className="bg-white p-6 rounded-2xl shadow-sm border border-stone-200 space-y-6">
+              <h2 className="text-xl font-bold text-stone-800 border-b border-stone-200 pb-2">📚 Historique des Semaines</h2>
+              <div className="space-y-6">
+                {historique.map((sem, idx) => (
+                  <div key={idx} className="border border-stone-200 rounded-xl p-5 bg-stone-50 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-200 pb-3">
+                      <div>
+                        <h3 className="font-bold text-stone-900 text-lg">{sem.titre}</h3>
+                        <span className="text-xs text-stone-500">{sem.dateAjout}</span>
+                      </div>
+                      <button onClick={() => rechargerSemaineHistorique(sem)} className="bg-stone-700 hover:bg-stone-800 text-white font-bold text-xs px-4 py-2 rounded-lg shadow transition">
+                        🔄 Recharger ce menu
+                      </button>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4 text-xs">
+                      <div className="bg-white p-3 rounded-lg border border-stone-200">
+                        <h4 className="font-bold text-stone-700 uppercase mb-2">🍳 Recettes clés</h4>
+                        <ul className="list-disc list-inside space-y-1 text-slate-600">
+                          {sem.recettes.map((rec, rIdx) => (
+                            <li key={rIdx}>{rec.titre}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Modal de remplacement */}
+          {selectedSlot && (
+            <div className="fixed inset-0 bg-stone-900/60 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+              <div className="bg-white p-6 rounded-2xl max-w-md w-full shadow-xl border-2 border-orange-100">
+                <h3 className="font-bold text-xl mb-1 text-amber-900">Remplacer le plat</h3>
+                <p className="text-sm text-slate-500 mb-5">Plat actuel : <span className="line-through">{selectedSlot.oldTitle}</span></p>
+                
+                <select 
+                  value={newRecipeChoice} 
+                  onChange={e => setNewRecipeChoice(e.target.value)}
+                  className="w-full p-3 border border-orange-200 rounded-xl mb-6 bg-orange-50/50 text-slate-800 focus:ring-orange-500 font-medium"
+                >
+                  {propositionsRemplacement.map((p, i) => (
+                    <option key={i} value={p.nom}>{p.nom} - {p.desc}</option>
+                  ))}
+                </select>
+                
+                <div className="flex justify-end gap-3">
+                  <button onClick={() => setSelectedSlot(null)} className="px-5 py-2.5 font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition">Annuler</button>
+                  <button onClick={confirmerRemplacement} className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md transition">Valider</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
